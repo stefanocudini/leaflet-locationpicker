@@ -117,7 +117,6 @@ TODO
 				})
 				.on('move', function(e) {
 					self.setLocation(e.target.getCenter());
-					self.$map.css({cursor:'hand'})
 				});
 
 			var xmap = L.control({position:'topright'});
@@ -152,22 +151,26 @@ TODO
 		    	return self.location.lat + opts.locationSep + self.location.lng;
 		    };
 
+		    self.openMap = function() {
+				self.$map.css({
+			    	top: self.$input.offset().top,
+			    	left: self.$input.offset().left + self.$input.width() + 5
+			    }).show();
+				self.map.invalidateSize();
+			};
+
 		    self.closeMap = function() {
 		    	//TODO fire event on close
 				self.$map.hide();
 		    };
 
-		    self.$map = buildMap(self).css({
-		    	top: self.$input.offset().top,
-		    	left: self.$input.offset().left + self.$input.width()+5
-		    });
+		    self.$map = buildMap(self);
 
 		    self.$input
 		    .addClass(opts.className)
 		    .on('focus.'+opts.className, function(e) {
 		        e.preventDefault();
-				self.$map.show();
-				self.map.invalidateSize();
+		        self.openMap();
 		    });
 /*		    .on('blur.'+opts.className, function(e) {
 		        e.preventDefault();

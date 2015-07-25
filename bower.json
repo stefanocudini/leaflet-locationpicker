@@ -1,6 +1,6 @@
 {
 	"name": "leaflet-locationpicker",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"main": "src/leaflet-locationpicker.js",  
 	"authors": ["Stefano Cudini <stefano.cudini@gmail.com>"],
 	"homepage": "https://github.com/stefanocudini/leaflet-locationpicker",
