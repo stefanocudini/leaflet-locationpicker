@@ -1,5 +1,5 @@
 /* 
- * Leaflet Location Picker v0.0.4 - 2015-07-26 
+ * Leaflet Location Picker v0.1.0 - 2015-07-26 
  * 
  * Copyright 2015 Stefano Cudini 
  * stefano.cudini@gmail.com 
@@ -34,6 +34,7 @@ TODO
 		var baseClassName = 'leaflet-locpicker',
 			baseLayers = {
 				'OSM': 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+				//TODO add more free base layers
 			};
 
 		var optsMap = {
@@ -68,10 +69,10 @@ TODO
 		}
 
 		function roundLocation(loc) {
-			return L.latLng(
+			return loc ? L.latLng(
 				parseFloat(loc.lat).toFixed(opts.locationDigits),
 				parseFloat(loc.lng).toFixed(opts.locationDigits)
-			);
+			) : loc;
 		}
 
 		function parseLocation(loc) {
@@ -79,10 +80,11 @@ TODO
 
 			switch($.type(loc)) {
 				case 'string':
-					retLoc = L.latLng(
-						loc.split(opts.locationSep)[0] || 0,
-						loc.split(opts.locationSep)[1] || 0
-						);
+					var ll = loc.split(opts.locationSep);
+					if(ll[0] && ll[1])
+						retLoc = L.latLng(ll);
+					else
+						retLoc = null;
 				break;	    		
 /*				case 'array':
 					retLoc = L.latLng(loc);
@@ -125,6 +127,9 @@ TODO
 			.append(divMap)
 			.appendTo('body');
 
+			if(self.location)
+				opts.map.center = self.location;
+
 			//leaflet map
 			self.map = L.map(divMap, opts.map)
 				.addControl(L.control.zoom({position:'bottomright'}))
@@ -155,8 +160,7 @@ TODO
 		    var self = this;
 
 		    self.$input = $(input);
-		    self.oriVal = self.$input.val();
-
+		    self.locationOri = self.$input.val();
 
 		    self.setLocation = function(loc) {
 		    	self.location = parseLocation(loc);
@@ -165,11 +169,11 @@ TODO
 		    };
 
 		    self.getLocation = function() {
-		    	return L.Util.template(opts.locationFormat, {
+		    	return self.location ? L.Util.template(opts.locationFormat, {
 		    		lat: self.location.lat,
 		    		lng: self.location.lng,
 		    		sep: opts.locationSep
-		    	});
+		    	}) : self.location;
 		    };
 
 		    self.openMap = function() {
@@ -184,6 +188,8 @@ TODO
 		    	//TODO fire event on close
 				self.$map.hide();
 		    };
+
+			self.setLocation( self.locationOri );
 
 		    self.$map = buildMap(self);
 
@@ -203,7 +209,7 @@ TODO
 			/*
 			TODO AUTOHIDE MAP
 			function resetInput() {
-			    self.$input.val(self.oriVal).removeClass(opts.classNameActive).removeData('location');
+			    self.$input.val(self.locationOri).removeClass(opts.classNameActive).removeData('location');
 			}
 			self.$map
 			.addClass(opts.classNameActive)
