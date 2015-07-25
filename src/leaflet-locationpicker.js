@@ -17,13 +17,12 @@ TODO
 
 		var baseClassName = 'leaflet-locpicker',
 			baseLayers = {
-				'OSM': L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+				'OSM': 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 			};
 
 		var optsMap = {
 			zoom: 3,			
 			center: L.latLng([41.8,12.5]),
-			layers: baseLayers.OSM,
 			zoomControl: false,
 			attributionControl: false
 		};
@@ -117,7 +116,8 @@ TODO
 				})
 				.on('move', function(e) {
 					self.setLocation(e.target.getCenter());
-				});
+				})
+				.addLayer( L.tileLayer(baseLayers[opts.layer]) );
 
 			var xmap = L.control({position:'topright'});
 			xmap.onAdd = function(map) {

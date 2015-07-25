@@ -7,6 +7,12 @@
 <link rel="stylesheet" href="/maps/leaflet/dist/leaflet.css" />
 <link rel="stylesheet" href="../src/leaflet-locationpicker.css" />
 <link rel="stylesheet" href="style.css" />
+<style type="text/css">
+	label {
+		clear: both;
+		margin: 50px;
+	}
+</style>
 </head>
 
 <body>
@@ -17,18 +23,24 @@
 
 <form style="margin:20px;padding:10px;background:#eee;float:left">
 	
-	<label>Insert a Geo Location 
-		<input id="geoloc" type="text" value="" size="16" />
+	<label>Insert new Geographic Location
+		<input class="geoloc" type="text" value="" size="16" />
 	</label>
-	
+
+	<label>Change the Geographic Location
+		<input class="geoloc" type="text" value="40.1285,9.1187" size="16" />
+	</label>
+
 </form>
+
+
 
 <script src="/maps/leaflet/dist/leaflet-src.js"></script>
 <script src="/js/jquery-2.1.1.min.js"></script>
 <script src="../src/leaflet-locationpicker.js"></script>
 <script>
 
-$('#geoloc').leafletLocationPicker();
+$('.geoloc').leafletLocationPicker();
 
 </script>
 
