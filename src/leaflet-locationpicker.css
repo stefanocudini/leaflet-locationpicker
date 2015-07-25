@@ -1,0 +1,52 @@
+
+
+/*.leaflet-locpicker {
+	box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+}*/
+
+.leaflet-locpicker-active {
+	box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.leaflet-locpicker-map {
+	display: none;
+	position: absolute;
+	background: rgba(255,255,255,1);
+	border-radius: 4px;
+	box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+}
+
+.leaflet-locpicker-close {
+	background: rgba(255,255,255,1);
+	font: bold 18px 'Lucida Console', Monaco, monospace;	
+	line-height: 24px;
+	width: 26px;
+	text-align: center;
+	margin: -5px;
+	cursor: pointer;
+	color: black;
+}
+
+.leaflet-locpicker-map .leaflet-container {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	bottom: 5px;
+	left: 5px;
+	cursor: crosshair;
+}
+.leaflet-locpicker-map .leaflet-control {
+	box-shadow: none;
+	margin: 0;
+}
+.leaflet-locpicker-map .leaflet-bar {
+	border-radius: 0;
+}
+.leaflet-locpicker-map .leaflet-bar a:first-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.leaflet-locpicker-map .leaflet-bar a:last-child {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
