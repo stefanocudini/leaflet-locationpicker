@@ -1,5 +1,5 @@
 /* 
- * Leaflet Location Picker v0.0.3 - 2015-07-26 
+ * Leaflet Location Picker v0.0.4 - 2015-07-26 
  * 
  * Copyright 2015 Stefano Cudini 
  * stefano.cudini@gmail.com 
@@ -52,6 +52,7 @@ TODO
 			classNameActive: baseClassName+'-active',
 			locationSep: ',',
 			locationDigits: 4,
+			locationFormat: '{lat}{sep}{lng}',	
 			height: 120,
 			width: 180,
 			layer: 'OSM',
@@ -164,7 +165,11 @@ TODO
 		    };
 
 		    self.getLocation = function() {
-		    	return self.location.lat + opts.locationSep + self.location.lng;
+		    	return L.Util.template(opts.locationFormat, {
+		    		lat: self.location.lat,
+		    		lng: self.location.lng,
+		    		sep: opts.locationSep
+		    	});
 		    };
 
 		    self.openMap = function() {

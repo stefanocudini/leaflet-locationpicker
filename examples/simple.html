@@ -10,7 +10,7 @@
 <style type="text/css">
 	label {
 		clear: both;
-		margin: 50px;
+		margin: 60px;
 	}
 </style>
 </head>
@@ -31,6 +31,10 @@
 		<input class="geoloc" type="text" value="40.1285,9.1187" size="16" />
 	</label>
 
+	<label>Custom Location Format 
+		<input id="geoloc2" type="text" value="" size="16" />
+	</label>
+
 </form>
 
 
@@ -41,6 +45,10 @@
 <script>
 
 $('.geoloc').leafletLocationPicker();
+
+$('#geoloc2').leafletLocationPicker({
+	locationFormat: '{lat}@{lng}'
+});
 
 </script>
 
