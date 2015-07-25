@@ -15,9 +15,7 @@ Simple location picker with Leaflet map
 
 ```javascript
 
-$('#geoloc').locationPicker(function(latlng) {
-	alert('position selected: '+latlng)
-});
+$('#geoloc').locationPicker();
 
 ```
 
