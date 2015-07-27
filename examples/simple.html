@@ -45,7 +45,7 @@ label {
 
 	<div id="events">
 		<label>Custom location format: <br />
-			<input id="geoloc2" type="text" value="" size="16" />
+			<input id="geoloc2" type="text" value="" size="20" />
 		</label>
 	</div>
 
@@ -56,6 +56,15 @@ label {
 			<br /><input id="geolat" type="text" value="" size="10" />
 			<br /><input id="geolng" type="text" value="" size="10" />
 			<br /><i></i>
+		</label>
+	</div>
+
+	<div id="callback">
+		<label>Custom callback:<br />
+			<input id="geoloc4" type="text" value="" size="16" />
+			<br /><br />
+			<i>Value from callback:</i><br />
+			<em style="color:blue"></em>
 		</label>
 	</div>
 </form>
@@ -72,7 +81,7 @@ $('.geolocs').leafletLocationPicker();
 
 //custom location format
 $('#geoloc2').leafletLocationPicker({
-	locationFormat: '{lat}@{lng}'
+	locationFormat: '{lat}@{lng}#WGS84'
 });
 
 //events
@@ -90,6 +99,11 @@ $('#geoloc3').leafletLocationPicker({
 	.siblings('#geolat').val( e.latlng.lat )
 	.siblings('#geolng').val( e.latlng.lng )
 	.siblings('i').text('"'+e.location+'"');	
+});
+
+//callback
+$('#geoloc4').leafletLocationPicker(function(e) {
+	$(this).siblings('em').text(e.location);
 });
 
 </script>

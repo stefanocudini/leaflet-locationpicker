@@ -30,10 +30,13 @@ grunt.initConfig({
 		' * \n'+
 		' */\n',
 		features: [
-			"Pick Location Latidute,Longitude clicking on map",
-			"Load picker map from preselected location",
 			"Custom location format, lat,lon separator and precision",
-			"Custom map baselayer"
+			"Pick Location Latidute,Longitude clicking on map",
+			"Bind multiple events or single picker callback",
+			"Load picker map from preselected location",
+			"Bind callback on location picked",
+			"Enable disable location marker",			
+			"Custom map baselayer"			
 		],
 		sources: [
 			{name: "Github.com", url: 'https://github.com/stefanocudini/<%= pkg.name %>' },

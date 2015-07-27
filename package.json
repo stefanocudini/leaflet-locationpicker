@@ -1,6 +1,6 @@
 {
   "name": "leaflet-locationpicker",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Simple location picker with Leaflet map",
   "repository": {
     "type": "git",

@@ -13,7 +13,7 @@ TODO
 
 	var $ = jQuery;
 
-	$.fn.leafletLocationPicker = function(opts, callback) {
+	$.fn.leafletLocationPicker = function(opts, onChangeLocation) {
 
 		var baseClassName = 'leaflet-locpicker',
 			baseLayers = {
@@ -23,11 +23,11 @@ TODO
 			};
 
 		var optsMap = {
-			zoom: 3,			
-			center: L.latLng([41.8,12.5]),
-			zoomControl: false,
-			attributionControl: false
-		};
+				zoom: 3,			
+				center: L.latLng([41.8,12.5]),
+				zoomControl: false,
+				attributionControl: false
+			};
 
 		if($.isPlainObject(opts) && $.isPlainObject(opts.map))
 			optsMap = $.extend(optsMap, opts.map);
@@ -44,10 +44,26 @@ TODO
 			layer: 'OSM',
 			zoom: optsMap.zoom,
 			location: optsMap.center,
-			map: optsMap
+			map: optsMap,
+			onChangeLocation: $.noop
 		};
 
-		opts = $.extend(defaults, opts);
+		if($.isPlainObject(opts))
+			opts = $.extend(defaults, opts);
+
+		else if($.isFunction(opts))
+			opts = $.extend(defaults, {
+				onChangeLocation: opts
+			});
+		else
+			opts = defaults;
+
+		if($.isFunction(onChangeLocation))
+			opts = $.extend(defaults, {
+				onChangeLocation: onChangeLocation
+			});
+
+		
 
 		function uniqueId() {
 			return (Math.random().toString(36).substring(7) + Date.now()).toLocaleLowerCase();
@@ -157,20 +173,26 @@ TODO
 
 		    self.$input = $(input);
 
-
 		    self.locationOri = self.$input.val();
 
-		    self.setLocation = function(loc) {
+			self.onChangeLocation = function() {
+				var edata = {
+					latlng: self.location,					
+					location: self.getLocation()
+				};
+				self.$input.trigger($.extend(edata, {
+					type: 'changeLocation'
+				}));
+				opts.onChangeLocation.call(self, edata);
+			};
+
+		    self.setLocation = function(loc, nocall) {
 		    	self.location = parseLocation(loc);
 		    	if(self.marker)
 		    		self.marker.setLatLng(loc);
 		    	self.$input.data('location', self.location);
 		    	self.$input.val( self.getLocation() );
-		    	self.$input.trigger({
-		    		type: 'changeLocation',
-		    		location:  self.getLocation(),
-		    		latlng: self.location
-		    	});
+		    	self.onChangeLocation();
 		    };
 
 		    self.getLocation = function() {
@@ -195,7 +217,7 @@ TODO
 				self.$input.trigger('hide');
 		    };
 
-			self.setLocation( self.locationOri );
+			self.setLocation(self.locationOri);
 
 		    self.$map = buildMap(self);
 
