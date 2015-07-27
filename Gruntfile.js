@@ -31,7 +31,9 @@ grunt.initConfig({
 		' */\n',
 		features: [
 			"Pick Location Latidute,Longitude clicking on map",
-			"Load picker map from preselected location"
+			"Load picker map from preselected location",
+			"Custom location format, lat,lon separator and precision",
+			"Custom map baselayer"
 		],
 		sources: [
 			{name: "Github.com", url: 'https://github.com/stefanocudini/<%= pkg.name %>' },

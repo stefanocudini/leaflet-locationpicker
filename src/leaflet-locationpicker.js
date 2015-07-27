@@ -32,9 +32,7 @@ TODO
 			optsMap = $.extend(optsMap, opts.map);
 
 		var defaults = {
-			title: 'Pick a Location',
 			className: baseClassName,
-			classNameActive: baseClassName+'-active',
 			locationSep: ',',
 			locationDigits: 4,
 			locationFormat: '{lat}{sep}{lng}',	
@@ -208,10 +206,9 @@ TODO
 			/*
 			TODO AUTOHIDE MAP
 			function resetInput() {
-			    self.$input.val(self.locationOri).removeClass(opts.classNameActive).removeData('location');
+			    self.$input.val(self.locationOri).removeData('location');
 			}
 			self.$map
-			.addClass(opts.classNameActive)
 			.on('mouseout.confirm', function() {
 			    self.timeoToken = setTimeout(resetInput, opts.timeout);
 			})
