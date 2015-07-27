@@ -13,7 +13,7 @@ form {
 	padding: 20px;
 	background: #eee;
 	float: left;
-	min-height: 150px;
+	min-height: 160px;
 	min-width: 400px
 }
 input {
@@ -74,25 +74,26 @@ $('.geolocs').leafletLocationPicker();
 //custom location format
 $('#geoloc2').leafletLocationPicker({
 	locationFormat: '{lat}@{lng}#WGS84',
-	layer: 'SAT'
+	layer: 'SAT',
+	position: 'bottomleft'
 });
 
 //events
 $('#geoloc3').leafletLocationPicker({
-	locationSep: ' - '
-})
-.on('show', function(e) {
-	$(this).siblings('em').text('click on map for insert the location');
-})
-.on('hide', function(e) {
-	$(this).siblings('em').text('');
-})
-.on('changeLocation', function(e) {
-	$(this)
-	.siblings('#geolat').val( e.latlng.lat )
-	.siblings('#geolng').val( e.latlng.lng )
-	.siblings('i').text('"'+e.location+'"');	
-});
+		locationSep: ' - '
+	})
+	.on('show', function(e) {
+		$(this).siblings('em').text('click on map for insert the location');
+	})
+	.on('hide', function(e) {
+		$(this).siblings('em').text('');
+	})
+	.on('changeLocation', function(e) {
+		$(this)
+		.siblings('#geolat').val( e.latlng.lat )
+		.siblings('#geolng').val( e.latlng.lng )
+		.siblings('i').text('"'+e.location+'"');	
+	});
 
 //callback
 $('#geoloc4').leafletLocationPicker(function(e) {

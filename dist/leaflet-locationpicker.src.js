@@ -1,5 +1,5 @@
 /* 
- * Leaflet Location Picker v0.1.8 - 2015-07-27 
+ * Leaflet Location Picker v0.2.0 - 2015-07-28 
  * 
  * Copyright 2015 Stefano Cudini 
  * stefano.cudini@gmail.com 
@@ -50,14 +50,14 @@ TODO
 
 		var defaults = {
 			className: baseClassName,
-			location: optsMap.center,			
+			location: optsMap.center,
 			locationFormat: '{lat}{sep}{lng}',	
 			locationMarkerText: '&oplus;',
 			locationMarker: true,
 			locationDigits: 4,	
-			locationSep: ',',					
+			locationSep: ',',				
 			activeOnMove: true,
-			zoom: optsMap.zoom,
+			position: 'topright',			
 			layer: 'OSM',			
 			height: 120,
 			width: 180,			
@@ -221,10 +221,22 @@ TODO
 		    };
 
 		    self.openMap = function() {
-				self.$map.css({
-			    	top: self.$input.offset().top,
-			    	left: self.$input.offset().left + self.$input.width() + 5
-			    }).show();
+		    	switch(opts.position) {
+					case 'bottomleft':
+						self.$map.css({
+							top: self.$input.offset().top + self.$input.height() + 6,
+							left: self.$input.offset().left 
+						});
+					break;
+					case 'topright':
+						self.$map.css({
+							top: self.$input.offset().top,
+							left: self.$input.offset().left + self.$input.width() + 5
+						});
+					break;
+				}
+
+				self.$map.show();
 				self.map.invalidateSize();
 				self.$input.trigger('show');
 			};
