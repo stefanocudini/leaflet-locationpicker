@@ -38,6 +38,8 @@ TODO
 			locationSep: ',',
 			locationDigits: 4,
 			locationFormat: '{lat}{sep}{lng}',	
+			locationMarker: true,
+			locationMarkerText: '&oplus;',
 			height: 120,
 			width: 180,
 			layer: 'OSM',
@@ -117,27 +119,38 @@ TODO
 			//leaflet map
 			self.map = L.map(divMap, opts.map)
 				.addControl(L.control.zoom({position:'bottomright'}))
+				.addLayer( L.tileLayer(baseLayers[opts.layer]) )
 				.on('click', function(e) {
 					self.setLocation(e.latlng);
 				})
 				.on('move', function(e) {
 					self.setLocation(e.target.getCenter());
-				})
-				.addLayer( L.tileLayer(baseLayers[opts.layer]) );
+				});
 
-			var xmap = L.control({position:'topright'});
+			var xmap = L.control({position: 'topright'});
 			xmap.onAdd = function(map) {
 				var btn = L.DomUtil.create('div','leaflet-control '+opts.className+'-close');
 				btn.innerHTML = '&times;';
 				L.DomEvent
 					.on(btn, 'click', L.DomEvent.stop, self)
 					.on(btn, 'click', self.closeMap, self);
-
 				return btn;
 			};
 			xmap.addTo(self.map);
 
+			if(opts.locationMarker)
+				self.marker = buildMarker(self.location).addTo(self.map);
+
 			return self.$map;
+		}
+
+		function buildMarker(loc) {
+			return L.marker( parseLocation(loc) || L.latLng(0,0), {
+				icon: L.divIcon({
+					className: opts.className+'-marker',
+					html: opts.locationMarkerText,
+				})
+			});
 		}
 
 		$(this).each(function(idx, input) {
@@ -148,6 +161,8 @@ TODO
 
 		    self.setLocation = function(loc) {
 		    	self.location = parseLocation(loc);
+		    	if(self.marker)
+		    		self.marker.setLatLng(loc);
 		    	self.$input.data('location', self.location);
 		    	self.$input.val( self.getLocation() );
 		    };
