@@ -1,5 +1,5 @@
 /* 
- * Leaflet Location Picker v0.1.5 - 2015-07-27 
+ * Leaflet Location Picker v0.1.6 - 2015-07-27 
  * 
  * Copyright 2015 Stefano Cudini 
  * stefano.cudini@gmail.com 
@@ -34,7 +34,8 @@
 
 .leaflet-locpicker-marker {
 	background: none;
-	color: rgba(0,0,0,0.5);	
+	color: rgba(0,0,0,0.6);
+	text-shadow: 0 0 5px rgba(255,255,255,1);
 	font: 34px 'Lucida Console', Monaco, monospace;	
 	line-height: 12px;
 	text-indent: -3px;

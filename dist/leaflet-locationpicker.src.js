@@ -1,5 +1,5 @@
 /* 
- * Leaflet Location Picker v0.1.5 - 2015-07-27 
+ * Leaflet Location Picker v0.1.6 - 2015-07-27 
  * 
  * Copyright 2015 Stefano Cudini 
  * stefano.cudini@gmail.com 
@@ -53,8 +53,9 @@ TODO
 			locationSep: ',',
 			locationDigits: 4,
 			locationFormat: '{lat}{sep}{lng}',	
-			locationMarker: false,
+			locationMarker: true,
 			locationMarkerText: '&oplus;',
+			activeOnMove: true,
 			height: 120,
 			width: 180,
 			layer: 'OSM',
@@ -153,8 +154,10 @@ TODO
 				.addLayer( L.tileLayer(baseLayers[opts.layer]) )
 				.on('click', function(e) {
 					self.setLocation(e.latlng);
-				})
-				.on('move', function(e) {
+				});
+
+			if(opts.activeOnMove)
+				self.map.on('move', function(e) {
 					self.setLocation(e.target.getCenter());
 				});
 

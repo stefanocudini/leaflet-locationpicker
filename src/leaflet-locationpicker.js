@@ -37,8 +37,9 @@ TODO
 			locationSep: ',',
 			locationDigits: 4,
 			locationFormat: '{lat}{sep}{lng}',	
-			locationMarker: false,
+			locationMarker: true,
 			locationMarkerText: '&oplus;',
+			activeOnMove: true,
 			height: 120,
 			width: 180,
 			layer: 'OSM',
@@ -137,8 +138,10 @@ TODO
 				.addLayer( L.tileLayer(baseLayers[opts.layer]) )
 				.on('click', function(e) {
 					self.setLocation(e.latlng);
-				})
-				.on('move', function(e) {
+				});
+
+			if(opts.activeOnMove)
+				self.map.on('move', function(e) {
 					self.setLocation(e.target.getCenter());
 				});
 
