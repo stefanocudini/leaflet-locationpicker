@@ -1,5 +1,5 @@
 /* 
- * Leaflet Location Picker v0.1.7 - 2015-07-27 
+ * Leaflet Location Picker v0.1.8 - 2015-07-27 
  * 
  * Copyright 2015 Stefano Cudini 
  * stefano.cudini@gmail.com 
@@ -50,18 +50,18 @@ TODO
 
 		var defaults = {
 			className: baseClassName,
-			locationSep: ',',
-			locationDigits: 4,
+			location: optsMap.center,			
 			locationFormat: '{lat}{sep}{lng}',	
-			locationMarker: true,
 			locationMarkerText: '&oplus;',
+			locationMarker: true,
+			locationDigits: 4,	
+			locationSep: ',',					
 			activeOnMove: true,
-			height: 120,
-			width: 180,
-			layer: 'OSM',
 			zoom: optsMap.zoom,
-			location: optsMap.center,
-			map: optsMap,
+			layer: 'OSM',			
+			height: 120,
+			width: 180,			
+			map: optsMap,			
 			onChangeLocation: $.noop
 		};
 
@@ -79,12 +79,6 @@ TODO
 			opts = $.extend(defaults, {
 				onChangeLocation: onChangeLocation
 			});
-
-		
-
-		function uniqueId() {
-			return (Math.random().toString(36).substring(7) + Date.now()).toLocaleLowerCase();
-		}
 
 		function roundLocation(loc) {
 			return loc ? L.latLng(
@@ -132,18 +126,13 @@ TODO
 
 		function buildMap(self) {
 
-			var divMap = document.createElement('div'),
-				id = opts.className +'-'+ uniqueId();
-
-			//div wrapper
-			self.$map = $(document.createElement('div'), {
-				id: id
-			})
-			.addClass(opts.className + '-map')
-			.height(opts.height)
-			.width(opts.width)
-			.append(divMap)
-			.appendTo('body');
+			self.divMap = document.createElement('div');
+			self.$map = $(document.createElement('div'))
+				.addClass(opts.className + '-map')
+				.height(opts.height)
+				.width(opts.width)
+				.append(self.divMap)
+				.appendTo('body');
 
 			if(self.location)
 				opts.map.center = self.location;
@@ -159,7 +148,7 @@ TODO
 				opts.map.layers = L.tileLayer(baseLayers.OSM);
 
 			//leaflet map
-			self.map = L.map(divMap, opts.map)
+			self.map = L.map(self.divMap, opts.map)
 				.addControl( L.control.zoom({position:'bottomright'}) )
 				.on('click', function(e) {
 					self.setLocation(e.latlng);
@@ -196,7 +185,7 @@ TODO
 			});
 		}
 
-		$(this).each(function(idx, input) {
+		$(this).each(function(index, input) {
 		    var self = this;
 
 		    self.$input = $(input);
