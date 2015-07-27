@@ -33,7 +33,8 @@ TODO
 
 		var baseClassName = 'leaflet-locpicker',
 			baseLayers = {
-				'OSM': 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+				'OSM': 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+				'MAPQUEST': 'http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png'
 				//TODO add more free base layers
 			};
 
@@ -52,7 +53,7 @@ TODO
 			locationSep: ',',
 			locationDigits: 4,
 			locationFormat: '{lat}{sep}{lng}',	
-			locationMarker: true,
+			locationMarker: false,
 			locationMarkerText: '&oplus;',
 			height: 120,
 			width: 180,

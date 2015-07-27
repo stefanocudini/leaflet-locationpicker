@@ -31,11 +31,11 @@ label {
 <form>
 	
 	<label>Insert new geographic location: <br />
-		<input class="geoloc" type="text" value="" size="16" />
+		<input class="geolocs" type="text" value="" size="16" />
 	</label>
 
 	<label>Change default geographic location: <br />
-		<input class="geoloc" type="text" value="17.9787,81.0352" size="16" />
+		<input class="geolocs" type="text" value="17.9787,81.0352" size="16" />
 	</label>
 
 	<label>Custom location format: <br />
@@ -52,7 +52,7 @@ label {
 <script>
 
 //multiple istances
-$('.geoloc').leafletLocationPicker();
+$('.geolocs').leafletLocationPicker();
 
 //custom location format
 $('#geoloc2').leafletLocationPicker({
