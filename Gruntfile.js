@@ -28,7 +28,17 @@ grunt.initConfig({
 		' * Source: \n'+
 		' * <%= pkg.repository.url %> \n'+
 		' * \n'+
-		' */\n'
+		' */\n',
+		features: [
+			"Pick Location Latidute,Longitude clicking on map",
+			"Load picker map from preselected location"
+		],
+		sources: [
+			{name: "Github.com", url: 'https://github.com/stefanocudini/<%= pkg.name %>' },
+			{name: "Node Packaged Module", url: 'https://npmjs.org/package/<%= pkg.name %>' },
+			//{name: "Bitbuket", url: 'https://bitbucket.org/zakis_/<%= pkg.name %>' },
+			//{name: "Atmosphere", url: 'http://atmospherejs.com/package/<%= pkg.name %>' }
+		]
 	},	
 	clean: {
 		homepage: {
@@ -76,7 +86,35 @@ grunt.initConfig({
 		readme: {
 			files: {
 				'index.html': ['README.md']
-			}
+			},
+			options: {
+				template: 'index.tmpl',
+				templateContext: function() {
+					var cfg = grunt.config();
+					
+					cfg.title = cfg.pkg.name.replace(/-/g,' ');
+					
+					cfg.ribbonurl = 'http://ghbtns.com/github-btn.html?user=stefanocudini&amp;repo='+cfg.pkg.name+'&amp;type=watch&amp;count=true';				
+					
+					cfg.examples = grunt.file.expand('examples/*.html');
+
+					cfg.features = cfg.meta.features;
+					cfg.sources = cfg.meta.sources;
+					cfg.giturl = cfg.meta.sources[0].url;
+					
+					cfg.image = grunt.file.expand('images/'+cfg.pkg.name+'.png');
+					
+					return cfg;
+				},
+				markdownOptions: {
+					gfm: true,
+					highlight: 'manual',
+					codeLines: {
+						before: '<div>',
+						after: '</div>'
+					}
+				}
+			}			
 		}
 	},
 	watch: {

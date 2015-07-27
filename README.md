@@ -23,6 +23,10 @@ $('#geoloc').locationPicker();
 
 * [Simple](examples/simple.html)
 
+
+![Image](https://raw.githubusercontent.com/stefanocudini/leaflet-locationpicker/master/images/leaflet-locationpicker.png)
+
+
 Source code:
 ------
 

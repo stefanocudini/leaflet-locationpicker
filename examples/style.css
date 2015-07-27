@@ -30,7 +30,6 @@ h3 a:hover {
 	font-size:1em;
 }
 #map {
-	border-radius:.125em;
 	border:2px solid #1978cf;
 	box-shadow: 0 0 8px #999;
 	float:left;
