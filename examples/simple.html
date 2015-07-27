@@ -10,15 +10,14 @@
 <style type="text/css">
 form {
 	margin: 20px;
-	padding: 10px 20px 80px;
+	padding: 20px;
 	background: #eee;
 	float: left;
-	width: 50%
+	min-height: 150px;
+	min-width: 400px
 }
-label {
-	clear: both;
-	margin: 60px;
-	line-height: 1.5em;
+input {
+	margin: 5px 0;
 }
 </style>
 </head>
@@ -28,45 +27,37 @@ label {
 
 <h4>Simple Example: <em></em></h4>
 
+<form id="insert">
+	<label>Insert new geographic location:</label><br />
+	<input class="geolocs" type="text" value="" size="20" />
+</form>
 
-<form>
+<form id="default">
+	<label>Change default geographic location:</label><br />
+	<input class="geolocs" type="text" value="17.9787,81.0352" size="20" />
+</form>
 
-	<div id="insert">
-		<label>Insert new geographic location: <br />
-			<input class="geolocs" type="text" value="" size="20" />
-		</label>
-	</div>
+<form id="format">
+	<label>Custom location format:</label><br />
+	<input id="geoloc2" type="text" value="" size="20" />
+</form>
 
-	<div id="default">
-		<label>Change default geographic location: <br />
-			<input class="geolocs" type="text" value="17.9787,81.0352" size="20" />
-		</label>
-	</div>
+<form id="events">
+	<label>Events: <em style="color:red"></em></label><br />
+	<input id="geoloc3" type="text" value="" size="20" />
+	<br />
+	<br /><input id="geolat" type="text" value="" size="20" />
+	<br /><input id="geolng" type="text" value="" size="20" />
+	<br /><i>string location</i>
+</form>
 
-	<div id="events">
-		<label>Custom location format: <br />
-			<input id="geoloc2" type="text" value="" size="20" />
-		</label>
-	</div>
-
-	<div id="events">
-		<label>Events: <em style="color:red"></em><br />
-			<input id="geoloc3" type="text" value="" size="20" />
-			<br />
-			<br /><input id="geolat" type="text" value="" size="20" />
-			<br /><input id="geolng" type="text" value="" size="20" />
-			<br /><i>string location</i>
-		</label>
-	</div>
-
-	<div id="callback">
-		<label>Custom callback:<br />
-			<input id="geoloc4" type="text" value="" size="20" />
-			<br /><br />
-			<i>Value from callback:</i><br />
-			<em style="color:blue"></em>
-		</label>
-	</div>
+<form id="callback">
+	<label>Custom callback:</label><br />
+	<input id="geoloc4" type="text" value="" size="20" />
+	<br /><br />
+	<i>Value from callback:</i><br />
+	<em style="color:blue"></em>
+</form>
 
 </form>
 
