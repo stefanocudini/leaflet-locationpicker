@@ -18,7 +18,7 @@ TODO
 		var baseClassName = 'leaflet-locpicker',
 			baseLayers = {
 				'OSM': 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-				'MAPQUEST': 'http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png'
+				'SAT': 'http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png'
 				//TODO add more free base layers
 			};
 
@@ -132,10 +132,19 @@ TODO
 			if(self.location)
 				opts.map.center = self.location;
 
+			if(typeof opts.layer === 'string' && baseLayers[opts.layer])
+				opts.map.layers = L.tileLayer(baseLayers[opts.layer]);
+
+			else if(opts.layer instanceof L.TileLayer ||
+					opts.layer instanceof L.LayerGroup )
+				opts.map.layers = opts.layer;
+
+			else
+				opts.map.layers = L.tileLayer(baseLayers.OSM);
+
 			//leaflet map
 			self.map = L.map(divMap, opts.map)
 				.addControl( L.control.zoom({position:'bottomright'}) )
-				.addLayer( L.tileLayer(baseLayers[opts.layer]) )
 				.on('click', function(e) {
 					self.setLocation(e.latlng);
 				});
