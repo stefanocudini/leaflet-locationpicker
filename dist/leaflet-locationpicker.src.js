@@ -1,5 +1,5 @@
 /* 
- * Leaflet Location Picker v0.1.2 - 2015-07-27 
+ * Leaflet Location Picker v0.1.4 - 2015-07-27 
  * 
  * Copyright 2015 Stefano Cudini 
  * stefano.cudini@gmail.com 
@@ -133,7 +133,7 @@ TODO
 
 			//leaflet map
 			self.map = L.map(divMap, opts.map)
-				.addControl(L.control.zoom({position:'bottomright'}))
+				.addControl( L.control.zoom({position:'bottomright'}) )
 				.addLayer( L.tileLayer(baseLayers[opts.layer]) )
 				.on('click', function(e) {
 					self.setLocation(e.latlng);
@@ -172,6 +172,8 @@ TODO
 		    var self = this;
 
 		    self.$input = $(input);
+
+
 		    self.locationOri = self.$input.val();
 
 		    self.setLocation = function(loc) {
@@ -180,6 +182,11 @@ TODO
 		    		self.marker.setLatLng(loc);
 		    	self.$input.data('location', self.location);
 		    	self.$input.val( self.getLocation() );
+		    	self.$input.trigger({
+		    		type: 'changeLocation',
+		    		location:  self.getLocation(),
+		    		latlng: self.location
+		    	});
 		    };
 
 		    self.getLocation = function() {
@@ -196,11 +203,12 @@ TODO
 			    	left: self.$input.offset().left + self.$input.width() + 5
 			    }).show();
 				self.map.invalidateSize();
+				self.$input.trigger('show');
 			};
 
 		    self.closeMap = function() {
-		    	//TODO fire event on close
 				self.$map.hide();
+				self.$input.trigger('hide');
 		    };
 
 			self.setLocation( self.locationOri );
@@ -219,7 +227,6 @@ TODO
 				//if(!self.$map.contains(e.originalEvent.relatedTarget))
 				//	self.closeMap();
 			});*/
-
 			/*
 			TODO AUTOHIDE MAP
 			function resetInput() {

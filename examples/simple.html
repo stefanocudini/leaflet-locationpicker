@@ -12,7 +12,8 @@ form {
 	margin: 20px;
 	padding: 10px 20px 80px;
 	background: #eee;
-	float: left
+	float: left;
+	width: 50%
 }
 label {
 	clear: both;
@@ -29,19 +30,34 @@ label {
 
 
 <form>
-	
-	<label>Insert new geographic location: <br />
-		<input class="geolocs" type="text" value="" size="16" />
-	</label>
 
-	<label>Change default geographic location: <br />
-		<input class="geolocs" type="text" value="17.9787,81.0352" size="16" />
-	</label>
+	<div id="insert">
+		<label>Insert new geographic location: <br />
+			<input class="geolocs" type="text" value="" size="16" />
+		</label>
+	</div>
 
-	<label>Custom location format: <br />
-		<input id="geoloc2" type="text" value="" size="16" />
-	</label>
+	<div id="default">
+		<label>Change default geographic location: <br />
+			<input class="geolocs" type="text" value="17.9787,81.0352" size="16" />
+		</label>
+	</div>
 
+	<div id="events">
+		<label>Custom location format: <br />
+			<input id="geoloc2" type="text" value="" size="16" />
+		</label>
+	</div>
+
+	<div id="events">
+		<label>Events: <em style="color:red"></em><br />
+			<input id="geoloc3" type="text" value="" size="16" />
+			<br /><br />
+			<b></b>
+			<br /><input id="geolat" type="text" value="" size="10" />
+			<br /><input id="geolng" type="text" value="" size="10" />
+		</label>
+	</div>
 </form>
 
 
@@ -58,6 +74,21 @@ $('.geolocs').leafletLocationPicker();
 $('#geoloc2').leafletLocationPicker({
 	locationFormat: '{lat}@{lng}'
 });
+
+//events
+$('#geoloc3').leafletLocationPicker()
+.on('show', function(e) {
+	$(this).siblings('em').text('click on map for insert the location');
+})
+.on('hide', function(e) {
+	$(this).siblings('em').text('');
+})
+.on('changeLocation', function(e) {
+	$(this)
+	.siblings('b').text(e.location)
+	.siblings('#geolat').val(e.latlng.lat)
+	.siblings('#geolng').val(e.latlng.lng)
+})
 
 </script>
 
