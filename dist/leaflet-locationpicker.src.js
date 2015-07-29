@@ -1,5 +1,5 @@
 /* 
- * Leaflet Location Picker v0.2.0 - 2015-07-28 
+ * Leaflet Location Picker v0.2.0 - 2015-07-29 
  * 
  * Copyright 2015 Stefano Cudini 
  * stefano.cudini@gmail.com 
@@ -188,7 +188,7 @@ TODO
 		$(this).each(function(index, input) {
 		    var self = this;
 
-		    self.$input = $(input);
+		    self.$input = $(this);
 
 		    self.locationOri = self.$input.val();
 

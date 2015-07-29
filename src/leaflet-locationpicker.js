@@ -172,7 +172,7 @@ TODO
 		$(this).each(function(index, input) {
 		    var self = this;
 
-		    self.$input = $(input);
+		    self.$input = $(this);
 
 		    self.locationOri = self.$input.val();
 

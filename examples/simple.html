@@ -30,38 +30,68 @@ input {
 <form id="insert">
 	<label>Insert new geographic location:</label><br />
 	<input class="geolocs" type="text" value="" size="20" />
+<pre>
+
+$('.geolocs').leafletLocationPicker();
+
+</pre>
 </form>
 
 <form id="default">
-	<label>Change default geographic location:</label><br />
+	Change default geographic location: <br />
 	<input class="geolocs" type="text" value="17.9787,81.0352" size="20" />
 </form>
 
 <form id="format">
-	<label>Custom location format:</label><br />
-	<input id="geoloc2" type="text" value="" size="20" />
+	Custom location format: <br />
+	<input id="geoloc2" type="text" value="" size="20" /> <br />
+<pre>
+$('#geoloc2').leafletLocationPicker({
+	locationFormat: '{lat}@{lng}#WGS84',
+	layer: 'SAT',
+	position: 'bottomleft'
+});
+</pre>	
+</form>
+
+<form id="callback">
+	Custom callback: <br />
+	<input id="geoloc4" type="text" value="" size="20" />
+	<br /><br />
+	<i>Value from callback:</i><br />
+	<em style="color:blue"></em><br />
+<pre>
+$('#geoloc4').leafletLocationPicker(function(e) {
+	$(this).siblings('em').text(e.location);
+});
+</pre>
 </form>
 
 <form id="events">
-	<label>Events: <em style="color:red"></em></label><br />
+	Events: <em style="color:red"></em><br />
 	<input id="geoloc3" type="text" value="" size="20" />
 	<br />
 	<br /><input id="geolat" type="text" value="" size="20" />
 	<br /><input id="geolng" type="text" value="" size="20" />
-	<br /><i>string location</i>
+	<br /><i>string location</i><br />
+<pre>
+$('#geoloc3').leafletLocationPicker({
+	locationSep: ' - '
+})
+.on('show', function(e) {
+	$(this).siblings('em').text('click on map for insert the location');
+})
+.on('hide', function(e) {
+	$(this).siblings('em').text('');
+})
+.on('changeLocation', function(e) {
+	$(this)
+	.siblings('#geolat').val( e.latlng.lat )
+	.siblings('#geolng').val( e.latlng.lng )
+	.siblings('i').text('"'+e.location+'"');	
+});	
+</pre>
 </form>
-
-<form id="callback">
-	<label>Custom callback:</label><br />
-	<input id="geoloc4" type="text" value="" size="20" />
-	<br /><br />
-	<i>Value from callback:</i><br />
-	<em style="color:blue"></em>
-</form>
-
-</form>
-
-
 
 <script src="/maps/leaflet/dist/leaflet-src.js"></script>
 <script src="/js/jquery-2.1.1.min.js"></script>
@@ -74,8 +104,8 @@ $('.geolocs').leafletLocationPicker();
 //custom location format
 $('#geoloc2').leafletLocationPicker({
 	locationFormat: '{lat}@{lng}#WGS84',
-	layer: 'SAT',
-	position: 'bottomleft'
+	position: 'bottomleft',
+	layer: 'SAT'	
 });
 
 //events

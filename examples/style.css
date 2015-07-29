@@ -38,6 +38,7 @@ h3 a:hover {
 }
 label {
 	float: left;
+	clear: both;
 }
 pre {
 	font-family: "Courier New";
@@ -47,8 +48,9 @@ pre {
 	clear: both;
 	padding: 10px;
 	margin: 10px 0;
-	background-color: #eee;
-	box-shadow: inset 2px 2px 4px #ccc;
+	background-color: #fff;
+	box-shadow: inset 2px 2px 3px rgba(100,100,100,0.2);
+	border: 1px solid #ccc;
 }
 #copy {
 	position:fixed;
