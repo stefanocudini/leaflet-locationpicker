@@ -17,14 +17,14 @@ TODO
 
 		var baseClassName = 'leaflet-locpicker',
 			baseLayers = {
-				'OSM': 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-				'SAT': 'http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png'
+				'OSM': 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+				'SAT': 'https://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png'
 				//TODO add more free base layers
 			};
 
 		var optsMap = {
-				zoom: 3,			
-				center: L.latLng([41.8,12.5]),
+				zoom: 14,
+				center: L.latLng([ 50.08, 14.43 ]),
 				zoomControl: false,
 				attributionControl: false
 			};
@@ -35,17 +35,16 @@ TODO
 		var defaults = {
 			className: baseClassName,
 			location: optsMap.center,
-			locationFormat: '{lat}{sep}{lng}',	
-			locationMarkerText: '&oplus;',
+			locationFormat: '{lat}{sep}{lng}',
 			locationMarker: true,
-			locationDigits: 4,	
-			locationSep: ',',				
-			activeOnMove: true,
-			position: 'topright',			
-			layer: 'OSM',			
+			locationDigits: 6,
+			locationSep: ',',
+			activeOnMove: false,
+			position: 'topright',
+			layer: 'OSM',
 			height: 120,
-			width: 180,			
-			map: optsMap,			
+			width: 180,
+			map: optsMap,
 			onChangeLocation: $.noop
 		};
 
@@ -140,10 +139,11 @@ TODO
 					self.setLocation(e.latlng);
 				});
 
-			if(opts.activeOnMove)
+			if(opts.activeOnMove) {
 				self.map.on('move', function(e) {
 					self.setLocation(e.target.getCenter());
 				});
+			}
 
 			var xmap = L.control({position: 'topright'});
 			xmap.onAdd = function(map) {
