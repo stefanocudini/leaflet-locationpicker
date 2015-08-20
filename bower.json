@@ -2,7 +2,10 @@
 	"name": "leaflet-locationpicker",
 	"version": "0.2.0",
 	"main": "src/leaflet-locationpicker.js",  
-	"authors": ["Stefano Cudini <stefano.cudini@gmail.com>"],
+	"authors": [
+        "Stefano Cudini <stefano.cudini@gmail.com>",
+        "Josef Kufner <josef@kufner.cz>"
+    ],
 	"homepage": "https://github.com/stefanocudini/leaflet-locationpicker",
 	"license": "MIT",
 	"dependencies": {
