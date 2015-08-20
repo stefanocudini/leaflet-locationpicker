@@ -81,8 +81,9 @@ TODO
 						retLoc = L.latLng(ll);
 					else
 						retLoc = null;
-				break;	    		
-/*				case 'array':
+				break;
+				/*
+				case 'array':
 					retLoc = L.latLng(loc);
 				break;
 				case 'object':
@@ -101,9 +102,10 @@ TODO
 						lng = loc.longitude;
 
 					retLoc = L.latLng(parseFloat(lat),parseFloat(lng));
-				break;*/
+				break;
+				*/
 				default:
-					retLoc = loc;		
+					retLoc = loc;
 			}
 			return roundLocation( retLoc );
 		}
@@ -178,7 +180,7 @@ TODO
 
 			self.onChangeLocation = function() {
 				var edata = {
-					latlng: self.location,					
+					latlng: self.location,
 					location: self.getLocation()
 				};
 				self.$input.trigger($.extend(edata, {
