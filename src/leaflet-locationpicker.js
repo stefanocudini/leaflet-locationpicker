@@ -163,10 +163,17 @@ TODO
 		}
 
 		function buildMarker(loc) {
+			var css = 'padding: 0px; margin: 0px; position: absolute; outline: 2px solid #ff8; box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.6);';
 			return L.marker( parseLocation(loc) || L.latLng(0,0), {
 				icon: L.divIcon({
 					className: opts.className+'-marker',
-					html: opts.locationMarkerText,
+					iconAnchor: L.point(0, 0),
+					html: '<div style="position: relative; padding: 0px; margin: 0px; width: 1em; height: 1em;">'
+					    + '<div style="width: 100%; height: 0px;  left: -120%; border-top:  1px solid black;' + css + '"></div>'
+					    + '<div style="width: 100%; height: 0px;  left:   20%; border-top:  1px solid black;' + css + '"></div>'
+					    + '<div style="width: 0px;  height: 100%; top:    20%; border-left: 1px solid black;' + css + '"></div>'
+					    + '<div style="width: 0px;  height: 100%; top:  -120%; border-left: 1px solid black;' + css + '"></div>'
+					    + '</div>',
 				})
 			});
 		}
