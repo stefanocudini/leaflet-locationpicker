@@ -214,59 +214,68 @@ TODO
 		    };
 
 		    self.openMap = function() {
-		    	switch(opts.position) {
-					case 'bottomleft':
-						self.$map.css({
-							top: self.$input.offset().top + self.$input.height() + 6,
-							left: self.$input.offset().left 
-						});
-					break;
-					case 'topright':
-						self.$map.css({
-							top: self.$input.offset().top,
-							left: self.$input.offset().left + self.$input.width() + 5
-						});
-					break;
-				}
+			    switch(opts.position) {
+				    case 'bottomleft':
+					    self.$map.css({
+						    top: self.$input.offset().top + self.$input.height() + 6,
+						    left: self.$input.offset().left
+					    });
+					    break;
+				    case 'topright':
+					    self.$map.css({
+						    top: self.$input.offset().top,
+						    left: self.$input.offset().left + self.$input.width() + 5
+					    });
+					    break;
+			    }
 
-				self.$map.show();
-				self.map.invalidateSize();
-				self.$input.trigger('show');
-			};
-
-		    self.closeMap = function() {
-				self.$map.hide();
-				self.$input.trigger('hide');
+			    self.$map.show();
+			    self.map.invalidateSize();
+			    self.$input.trigger('show');
 		    };
 
-			self.setLocation(self.locationOri);
+		    self.closeMap = function() {
+			    self.$map.hide();
+			    self.$input.trigger('hide');
+		    };
+
+		    self.setLocation(self.locationOri);
 
 		    self.$map = buildMap(self);
 
 		    self.$input
-		    .addClass(opts.className)
-		    .on('focus.'+opts.className, function(e) {
-		        e.preventDefault();
-		        self.openMap();
+			    .addClass(opts.className)
+			    .on('focus.'+opts.className, function(e) {
+				    console.log('focus:', e);
+				    e.preventDefault();
+				    self.openMap();
+			    })
+			    .on('blur.'+opts.className, function(e) {
+				    e.preventDefault();
+				    var p = e.relatedTarget;
+				    var close = true;
+				    while (p) {
+					    if (p._leaflet) {
+						    close = false;
+						    break;
+					    }
+					    p = p.parentElement;
+				    }
+				    console.log('blur:', e, close);
+				    if(close) {
+					    self.closeMap();
+				    }
+			    });
+
+		    self.$map.on('click', function(e) {
+			    console.log('map click:', e);
 		    });
-/*		    .on('blur.'+opts.className, function(e) {
-		        e.preventDefault();
-		        console.log(e.originalEvent.relatedTarget);
-				//if(!self.$map.contains(e.originalEvent.relatedTarget))
-				//	self.closeMap();
-			});*/
-			/*
-			TODO AUTOHIDE MAP
-			function resetInput() {
-			    self.$input.val(self.locationOri).removeData('location');
-			}
-			self.$map
-			.on('mouseout.confirm', function() {
-			    self.timeoToken = setTimeout(resetInput, opts.timeout);
-			})
-			.on('mouseover.confirm', function() {
-			    clearTimeout(self.timeoToken);
-			});*/
+		    self.$map.on('focus', function(e) {
+			    console.log('map focus:', e);
+		    });
+		    self.$map.on('blur', function(e) {
+			    console.log('map blur:', e);
+		    });
 		});
 
 		return this;
