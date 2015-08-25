@@ -17,14 +17,14 @@ TODO
 
 		var baseClassName = 'leaflet-locpicker',
 			baseLayers = {
-				'OSM': 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-				'SAT': 'http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png'
+				'OSM': 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+				'SAT': 'https://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png'
 				//TODO add more free base layers
 			};
 
 		var optsMap = {
-				zoom: 3,			
-				center: L.latLng([41.8,12.5]),
+				zoom: 14,
+				center: L.latLng([ 50.08, 14.43 ]),
 				zoomControl: false,
 				attributionControl: false
 			};
@@ -35,17 +35,16 @@ TODO
 		var defaults = {
 			className: baseClassName,
 			location: optsMap.center,
-			locationFormat: '{lat}{sep}{lng}',	
-			locationMarkerText: '&oplus;',
+			locationFormat: '{lat}{sep}{lng}',
 			locationMarker: true,
-			locationDigits: 4,	
-			locationSep: ',',				
-			activeOnMove: true,
-			position: 'topright',			
-			layer: 'OSM',			
+			locationDigits: 6,
+			locationSep: ',',
+			activeOnMove: false,
+			position: 'topright',
+			layer: 'OSM',
 			height: 120,
-			width: 180,			
-			map: optsMap,			
+			width: 180,
+			map: optsMap,
 			onChangeLocation: $.noop
 		};
 
@@ -81,8 +80,9 @@ TODO
 						retLoc = L.latLng(ll);
 					else
 						retLoc = null;
-				break;	    		
-/*				case 'array':
+				break;
+				/*
+				case 'array':
 					retLoc = L.latLng(loc);
 				break;
 				case 'object':
@@ -101,9 +101,10 @@ TODO
 						lng = loc.longitude;
 
 					retLoc = L.latLng(parseFloat(lat),parseFloat(lng));
-				break;*/
+				break;
+				*/
 				default:
-					retLoc = loc;		
+					retLoc = loc;
 			}
 			return roundLocation( retLoc );
 		}
@@ -138,10 +139,11 @@ TODO
 					self.setLocation(e.latlng);
 				});
 
-			if(opts.activeOnMove)
+			if(opts.activeOnMove) {
 				self.map.on('move', function(e) {
 					self.setLocation(e.target.getCenter());
 				});
+			}
 
 			var xmap = L.control({position: 'topright'});
 			xmap.onAdd = function(map) {
@@ -161,10 +163,17 @@ TODO
 		}
 
 		function buildMarker(loc) {
+			var css = 'padding: 0px; margin: 0px; position: absolute; outline: 2px solid #ff8; box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.6);';
 			return L.marker( parseLocation(loc) || L.latLng(0,0), {
 				icon: L.divIcon({
 					className: opts.className+'-marker',
-					html: opts.locationMarkerText,
+					iconAnchor: L.point(0, 0),
+					html: '<div style="position: relative; padding: 0px; margin: 0px; width: 1em; height: 1em;">'
+					    + '<div style="width: 100%; height: 0px;  left: -120%; border-top:  1px solid black;' + css + '"></div>'
+					    + '<div style="width: 100%; height: 0px;  left:   20%; border-top:  1px solid black;' + css + '"></div>'
+					    + '<div style="width: 0px;  height: 100%; top:    20%; border-left: 1px solid black;' + css + '"></div>'
+					    + '<div style="width: 0px;  height: 100%; top:  -120%; border-left: 1px solid black;' + css + '"></div>'
+					    + '</div>',
 				})
 			});
 		}
@@ -178,7 +187,7 @@ TODO
 
 			self.onChangeLocation = function() {
 				var edata = {
-					latlng: self.location,					
+					latlng: self.location,
 					location: self.getLocation()
 				};
 				self.$input.trigger($.extend(edata, {
@@ -205,59 +214,68 @@ TODO
 		    };
 
 		    self.openMap = function() {
-		    	switch(opts.position) {
-					case 'bottomleft':
-						self.$map.css({
-							top: self.$input.offset().top + self.$input.height() + 6,
-							left: self.$input.offset().left 
-						});
-					break;
-					case 'topright':
-						self.$map.css({
-							top: self.$input.offset().top,
-							left: self.$input.offset().left + self.$input.width() + 5
-						});
-					break;
-				}
+			    switch(opts.position) {
+				    case 'bottomleft':
+					    self.$map.css({
+						    top: self.$input.offset().top + self.$input.height() + 6,
+						    left: self.$input.offset().left
+					    });
+					    break;
+				    case 'topright':
+					    self.$map.css({
+						    top: self.$input.offset().top,
+						    left: self.$input.offset().left + self.$input.width() + 5
+					    });
+					    break;
+			    }
 
-				self.$map.show();
-				self.map.invalidateSize();
-				self.$input.trigger('show');
-			};
-
-		    self.closeMap = function() {
-				self.$map.hide();
-				self.$input.trigger('hide');
+			    self.$map.show();
+			    self.map.invalidateSize();
+			    self.$input.trigger('show');
 		    };
 
-			self.setLocation(self.locationOri);
+		    self.closeMap = function() {
+			    self.$map.hide();
+			    self.$input.trigger('hide');
+		    };
+
+		    self.setLocation(self.locationOri);
 
 		    self.$map = buildMap(self);
 
 		    self.$input
-		    .addClass(opts.className)
-		    .on('focus.'+opts.className, function(e) {
-		        e.preventDefault();
-		        self.openMap();
+			    .addClass(opts.className)
+			    .on('focus.'+opts.className, function(e) {
+				    console.log('focus:', e);
+				    e.preventDefault();
+				    self.openMap();
+			    })
+			    .on('blur.'+opts.className, function(e) {
+				    e.preventDefault();
+				    var p = e.relatedTarget;
+				    var close = true;
+				    while (p) {
+					    if (p._leaflet) {
+						    close = false;
+						    break;
+					    }
+					    p = p.parentElement;
+				    }
+				    console.log('blur:', e, close);
+				    if(close) {
+					    self.closeMap();
+				    }
+			    });
+
+		    self.$map.on('click', function(e) {
+			    console.log('map click:', e);
 		    });
-/*		    .on('blur.'+opts.className, function(e) {
-		        e.preventDefault();
-		        console.log(e.originalEvent.relatedTarget);
-				//if(!self.$map.contains(e.originalEvent.relatedTarget))
-				//	self.closeMap();
-			});*/
-			/*
-			TODO AUTOHIDE MAP
-			function resetInput() {
-			    self.$input.val(self.locationOri).removeData('location');
-			}
-			self.$map
-			.on('mouseout.confirm', function() {
-			    self.timeoToken = setTimeout(resetInput, opts.timeout);
-			})
-			.on('mouseover.confirm', function() {
-			    clearTimeout(self.timeoToken);
-			});*/
+		    self.$map.on('focus', function(e) {
+			    console.log('map focus:', e);
+		    });
+		    self.$map.on('blur', function(e) {
+			    console.log('map blur:', e);
+		    });
 		});
 
 		return this;
