@@ -150,12 +150,14 @@ TODO
 
 			var xmap = L.control({position: 'topright'});
 			xmap.onAdd = function(map) {
-				var btn = L.DomUtil.create('div','leaflet-control '+opts.className+'-close');
+				var btn_holder = L.DomUtil.create('div', 'leaflet-bar');
+				var btn = L.DomUtil.create('a','leaflet-control '+opts.className+'-close');
 				btn.innerHTML = '&times;';
+				btn_holder.appendChild(btn);
 				L.DomEvent
 					.on(btn, 'click', L.DomEvent.stop, self)
 					.on(btn, 'click', self.closeMap, self);
-				return btn;
+				return btn_holder;
 			};
 			xmap.addTo(self.map);
 

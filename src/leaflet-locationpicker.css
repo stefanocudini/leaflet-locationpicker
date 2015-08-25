@@ -20,14 +20,12 @@
 }
 
 .leaflet-locpicker-close {
-	background: rgba(255,255,255,1);
-	font: bold 18px 'Lucida Console', Monaco, monospace;	
-	line-height: 26px;
-	width: 26px;
-	text-align: center;
-	margin: -5px;
 	cursor: pointer;
-	color: black;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	font: 700 22px 'Lucida Console', Monaco, monospace;
+	text-indent: 1px;
 }
 
 .leaflet-locpicker-map .leaflet-container {
