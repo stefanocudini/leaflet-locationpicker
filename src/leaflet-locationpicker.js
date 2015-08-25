@@ -216,7 +216,7 @@ TODO
 		    	}) : self.location;
 		    };
 
-		    self.openMap = function() {
+		    self.updatePosition = function() {
 			    switch(opts.position) {
 				    case 'bottomleft':
 					    self.$map.css({
@@ -231,7 +231,10 @@ TODO
 					    });
 					    break;
 			    }
+		    };
 
+		    self.openMap = function() {
+			    self.updatePosition();
 			    self.$map.show();
 			    self.map.invalidateSize();
 			    self.$input.trigger('show');
@@ -278,6 +281,12 @@ TODO
 		    });
 		    self.$map.on('blur', function(e) {
 			    console.log('map blur:', e);
+		    });
+
+		    $(window).on('resize', function() {
+			    if (self.$map.css('display') != 'none') {
+				    self.updatePosition();
+			    }
 		    });
 		});
 
