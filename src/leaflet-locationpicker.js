@@ -17,8 +17,8 @@ TODO
 
 		var baseClassName = 'leaflet-locpicker',
 			baseLayers = {
-				'OSM': 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-				'SAT': 'https://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png'
+				'OSM': 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+				'SAT': 'http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png'
 				//TODO add more free base layers
 			};
 
@@ -163,17 +163,18 @@ TODO
 		}
 
 		function buildMarker(loc) {
-			var css = 'padding: 0px; margin: 0px; position: absolute; outline: 2px solid #ff8; box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.6);';
+			var css = 'padding:0; margin:-1px; position: absolute; outline: 1px solid #fff; box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);';
+
 			return L.marker( parseLocation(loc) || L.latLng(0,0), {
 				icon: L.divIcon({
 					className: opts.className+'-marker',
 					iconAnchor: L.point(0, 0),
-					html: '<div style="position: relative; padding: 0px; margin: 0px; width: 1em; height: 1em;">'
-					    + '<div style="width: 100%; height: 0px;  left: -120%; border-top:  1px solid black;' + css + '"></div>'
-					    + '<div style="width: 100%; height: 0px;  left:   20%; border-top:  1px solid black;' + css + '"></div>'
-					    + '<div style="width: 0px;  height: 100%; top:    20%; border-left: 1px solid black;' + css + '"></div>'
-					    + '<div style="width: 0px;  height: 100%; top:  -120%; border-left: 1px solid black;' + css + '"></div>'
-					    + '</div>',
+					html: '<div style="position: relative; padding: 0px; margin: 0px; width: 1em; height: 1em;">'+
+							'<div style="width: 50%; height: 0px; left: -80%; border-top:  2px solid black;' + css + '"></div>'+
+							'<div style="width: 50%; height: 0px; left:  30%; border-top:  2px solid black;' + css + '"></div>'+
+							'<div style="width: 0px; height: 50%; top:   30%; border-left: 2px solid black;' + css + '"></div>'+
+							'<div style="width: 0px; height: 50%; top:  -80%; border-left: 2px solid black;' + css + '"></div>'+
+						'</div>',
 				})
 			});
 		}

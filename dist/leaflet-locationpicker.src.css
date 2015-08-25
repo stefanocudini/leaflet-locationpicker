@@ -1,5 +1,5 @@
 /* 
- * Leaflet Location Picker v0.2.0 - 2015-07-29 
+ * Leaflet Location Picker v0.2.1 - 2015-08-25 
  * 
  * Copyright 2015 Stefano Cudini 
  * stefano.cudini@gmail.com 
@@ -14,12 +14,6 @@
  * git@github.com:stefanocudini/leaflet-locationpicker.git 
  * 
  */
-
-
-/*.leaflet-locpicker {
-	box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
-}*/
-
 .leaflet-locpicker-active {
 	box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
@@ -38,7 +32,7 @@
 	font: 34px 'Lucida Console', Monaco, monospace;	
 	line-height: 12px;
 	text-indent: -3px;
-	cursor: pointer;
+	cursor: crosshair;
 }
 
 .leaflet-locpicker-close {
@@ -76,3 +70,4 @@
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+

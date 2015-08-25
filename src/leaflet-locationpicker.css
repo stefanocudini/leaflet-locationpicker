@@ -16,7 +16,7 @@
 	font: 34px 'Lucida Console', Monaco, monospace;	
 	line-height: 12px;
 	text-indent: -3px;
-	cursor: pointer;
+	cursor: crosshair;
 }
 
 .leaflet-locpicker-close {
