@@ -46,6 +46,7 @@ TODO
 			layer: 'OSM',
 			height: 120,
 			width: 180,
+			cursorSize: '1em',
 			map: optsMap,
 			onChangeLocation: $.noop
 		};
@@ -171,7 +172,7 @@ TODO
 				icon: L.divIcon({
 					className: opts.className+'-marker',
 					iconAnchor: L.point(0, 0),
-					html: '<div style="position: relative; padding: 0px; margin: 0px; width: 1em; height: 1em;">'+
+					html: '<div style="position: relative; padding: 0px; margin: 0px; width: ' + opts.cursorSize + '; height: ' + opts.cursorSize + ';">'+
 							'<div style="width: 50%; height: 0px; left: -80%; border-top:  2px solid black;' + css + '"></div>'+
 							'<div style="width: 50%; height: 0px; left:  30%; border-top:  2px solid black;' + css + '"></div>'+
 							'<div style="width: 0px; height: 50%; top:   30%; border-left: 2px solid black;' + css + '"></div>'+
