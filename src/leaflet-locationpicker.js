@@ -46,7 +46,7 @@ TODO
 			layer: 'OSM',
 			height: 120,
 			width: 180,
-			cursorSize: '1em',
+			cursorSize: '30px',
 			map: optsMap,
 			onChangeLocation: $.noop
 		};

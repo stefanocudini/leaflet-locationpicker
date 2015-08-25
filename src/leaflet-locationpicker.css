@@ -10,12 +10,6 @@
 }
 
 .leaflet-locpicker-marker {
-	background: none;
-	color: rgba(0,0,0,0.6);
-	text-shadow: 0 0 5px rgba(255,255,255,1);
-	font: 34px 'Lucida Console', Monaco, monospace;	
-	line-height: 12px;
-	text-indent: -3px;
 	cursor: crosshair;
 }
 
@@ -35,21 +29,25 @@
 	bottom: 5px;
 	left: 5px;
 	cursor: crosshair;
-	border: 1px solid  rgba(100,100,100,0.2)	
+	border: 1px solid rgba(100,100,100,0.2)	
 }
+
 .leaflet-locpicker-map .leaflet-control {
 	box-shadow: none;
 	margin: 0;
 }
+
 .leaflet-locpicker-map .leaflet-bar {
 	border-radius: 0;
 }
+
 .leaflet-locpicker-map .leaflet-bar a:first-child {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 }
+
 .leaflet-locpicker-map .leaflet-bar a:last-child {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 }
 
