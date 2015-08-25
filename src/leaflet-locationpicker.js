@@ -166,17 +166,18 @@ TODO
 		}
 
 		function buildMarker(loc) {
-			var css = 'padding:0; margin:-1px; position: absolute; outline: 1px solid #fff; box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);';
+			var css = 'padding: 0px; margin: 0px; position: absolute; outline: 1px solid #fff; box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);';
 
 			return L.marker( parseLocation(loc) || L.latLng(0,0), {
 				icon: L.divIcon({
 					className: opts.className+'-marker',
 					iconAnchor: L.point(0, 0),
-					html: '<div style="position: relative; padding: 0px; margin: 0px; width: ' + opts.cursorSize + '; height: ' + opts.cursorSize + ';">'+
-							'<div style="width: 50%; height: 0px; left: -80%; border-top:  2px solid black;' + css + '"></div>'+
+					html: '<div style="position: relative; top: -1px; left: -1px; padding: 0px; margin: 0px; cursor: crosshair;'+
+								'width: ' + opts.cursorSize + '; height: ' + opts.cursorSize + ';">'+
+							'<div style="width: 50%; height: 0px; left: -70%; border-top:  2px solid black;' + css + '"></div>'+
 							'<div style="width: 50%; height: 0px; left:  30%; border-top:  2px solid black;' + css + '"></div>'+
 							'<div style="width: 0px; height: 50%; top:   30%; border-left: 2px solid black;' + css + '"></div>'+
-							'<div style="width: 0px; height: 50%; top:  -80%; border-left: 2px solid black;' + css + '"></div>'+
+							'<div style="width: 0px; height: 50%; top:  -70%; border-left: 2px solid black;' + css + '"></div>'+
 						'</div>',
 				})
 			});
