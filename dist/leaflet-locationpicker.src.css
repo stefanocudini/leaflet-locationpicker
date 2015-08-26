@@ -1,5 +1,5 @@
 /* 
- * Leaflet Location Picker v0.2.1 - 2015-08-25 
+ * Leaflet Location Picker v0.2.2 - 2015-08-26 
  * 
  * Copyright 2015 Stefano Cudini 
  * stefano.cudini@gmail.com 
@@ -26,24 +26,16 @@
 }
 
 .leaflet-locpicker-marker {
-	background: none;
-	color: rgba(0,0,0,0.6);
-	text-shadow: 0 0 5px rgba(255,255,255,1);
-	font: 34px 'Lucida Console', Monaco, monospace;	
-	line-height: 12px;
-	text-indent: -3px;
 	cursor: crosshair;
 }
 
 .leaflet-locpicker-close {
-	background: rgba(255,255,255,1);
-	font: bold 18px 'Lucida Console', Monaco, monospace;	
-	line-height: 26px;
-	width: 26px;
-	text-align: center;
-	margin: -5px;
 	cursor: pointer;
-	color: black;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	font: 700 22px 'Lucida Console', Monaco, monospace;
+	text-indent: 1px;
 }
 
 .leaflet-locpicker-map .leaflet-container {
@@ -53,21 +45,25 @@
 	bottom: 5px;
 	left: 5px;
 	cursor: crosshair;
-	border: 1px solid  rgba(100,100,100,0.2)	
+	border: 1px solid rgba(100,100,100,0.2)	
 }
+
 .leaflet-locpicker-map .leaflet-control {
 	box-shadow: none;
 	margin: 0;
 }
+
 .leaflet-locpicker-map .leaflet-bar {
 	border-radius: 0;
 }
+
 .leaflet-locpicker-map .leaflet-bar a:first-child {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 }
+
 .leaflet-locpicker-map .leaflet-bar a:last-child {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 }
 

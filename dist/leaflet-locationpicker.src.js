@@ -1,5 +1,5 @@
 /* 
- * Leaflet Location Picker v0.2.1 - 2015-08-25 
+ * Leaflet Location Picker v0.2.2 - 2015-08-26 
  * 
  * Copyright 2015 Stefano Cudini 
  * stefano.cudini@gmail.com 
@@ -31,10 +31,12 @@ TODO
 
 	$.fn.leafletLocationPicker = function(opts, onChangeLocation) {
 
+		var http = window.location.protocol;
+
 		var baseClassName = 'leaflet-locpicker',
 			baseLayers = {
-				'OSM': 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-				'SAT': 'http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png'
+				'OSM': http + '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+				'SAT': http + '//otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png'
 				//TODO add more free base layers
 			};
 
@@ -60,6 +62,7 @@ TODO
 			layer: 'OSM',
 			height: 120,
 			width: 180,
+			cursorSize: '30px',
 			map: optsMap,
 			onChangeLocation: $.noop
 		};
@@ -163,12 +166,14 @@ TODO
 
 			var xmap = L.control({position: 'topright'});
 			xmap.onAdd = function(map) {
-				var btn = L.DomUtil.create('div','leaflet-control '+opts.className+'-close');
+				var btn_holder = L.DomUtil.create('div', 'leaflet-bar');
+				var btn = L.DomUtil.create('a','leaflet-control '+opts.className+'-close');
 				btn.innerHTML = '&times;';
+				btn_holder.appendChild(btn);
 				L.DomEvent
 					.on(btn, 'click', L.DomEvent.stop, self)
 					.on(btn, 'click', self.closeMap, self);
-				return btn;
+				return btn_holder;
 			};
 			xmap.addTo(self.map);
 
@@ -179,17 +184,18 @@ TODO
 		}
 
 		function buildMarker(loc) {
-			var css = 'padding:0; margin:-1px; position: absolute; outline: 1px solid #fff; box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);';
+			var css = 'padding: 0px; margin: 0px; position: absolute; outline: 1px solid #fff; box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);';
 
 			return L.marker( parseLocation(loc) || L.latLng(0,0), {
 				icon: L.divIcon({
 					className: opts.className+'-marker',
 					iconAnchor: L.point(0, 0),
-					html: '<div style="position: relative; padding: 0px; margin: 0px; width: 1em; height: 1em;">'+
-							'<div style="width: 50%; height: 0px; left: -80%; border-top:  2px solid black;' + css + '"></div>'+
+					html: '<div style="position: relative; top: -1px; left: -1px; padding: 0px; margin: 0px; cursor: crosshair;'+
+								'width: ' + opts.cursorSize + '; height: ' + opts.cursorSize + ';">'+
+							'<div style="width: 50%; height: 0px; left: -70%; border-top:  2px solid black;' + css + '"></div>'+
 							'<div style="width: 50%; height: 0px; left:  30%; border-top:  2px solid black;' + css + '"></div>'+
 							'<div style="width: 0px; height: 50%; top:   30%; border-left: 2px solid black;' + css + '"></div>'+
-							'<div style="width: 0px; height: 50%; top:  -80%; border-left: 2px solid black;' + css + '"></div>'+
+							'<div style="width: 0px; height: 50%; top:  -70%; border-left: 2px solid black;' + css + '"></div>'+
 						'</div>',
 				})
 			});
@@ -230,7 +236,7 @@ TODO
 		    	}) : self.location;
 		    };
 
-		    self.openMap = function() {
+		    self.updatePosition = function() {
 			    switch(opts.position) {
 				    case 'bottomleft':
 					    self.$map.css({
@@ -245,7 +251,10 @@ TODO
 					    });
 					    break;
 			    }
+		    };
 
+		    self.openMap = function() {
+			    self.updatePosition();
 			    self.$map.show();
 			    self.map.invalidateSize();
 			    self.$input.trigger('show');
@@ -292,6 +301,12 @@ TODO
 		    });
 		    self.$map.on('blur', function(e) {
 			    console.log('map blur:', e);
+		    });
+
+		    $(window).on('resize', function() {
+			    if (self.$map.css('display') != 'none') {
+				    self.updatePosition();
+			    }
 		    });
 		});
 
