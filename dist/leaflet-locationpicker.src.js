@@ -1,5 +1,5 @@
 /* 
- * Leaflet Location Picker v0.2.2 - 2015-08-26 
+ * Leaflet Location Picker v0.2.3 - 2015-09-03 
  * 
  * Copyright 2015 Stefano Cudini 
  * stefano.cudini@gmail.com 
@@ -41,8 +41,8 @@ TODO
 			};
 
 		var optsMap = {
-				zoom: 14,
-				center: L.latLng([ 50.08, 14.43 ]),
+				zoom: 0,
+				center: L.latLng([40,0]),
 				zoomControl: false,
 				attributionControl: false
 			};
@@ -60,8 +60,8 @@ TODO
 			activeOnMove: false,
 			position: 'topright',
 			layer: 'OSM',
-			height: 120,
-			width: 180,
+			height: 140,
+			width: 200,
 			cursorSize: '30px',
 			map: optsMap,
 			onChangeLocation: $.noop
@@ -100,13 +100,11 @@ TODO
 					else
 						retLoc = null;
 				break;
-				/*
 				case 'array':
 					retLoc = L.latLng(loc);
 				break;
 				case 'object':
 					var lat, lng;
-
 					if(loc.hasOwnProperty('lat'))
 						lat = loc.lat;
 					else if(loc.hasOwnProperty('latitude'))
@@ -121,7 +119,6 @@ TODO
 
 					retLoc = L.latLng(parseFloat(lat),parseFloat(lng));
 				break;
-				*/
 				default:
 					retLoc = loc;
 			}
@@ -219,13 +216,18 @@ TODO
 				opts.onChangeLocation.call(self, edata);
 			};
 
-		    self.setLocation = function(loc, nocall) {
-		    	self.location = parseLocation(loc);
-		    	if(self.marker)
-		    		self.marker.setLatLng(loc);
-		    	self.$input.data('location', self.location);
-		    	self.$input.val( self.getLocation() );
-		    	self.onChangeLocation();
+		    self.setLocation = function(loc, noSet) {
+				loc = loc || defaults.location;
+				self.location = parseLocation(loc);
+				
+				if(self.marker)
+					self.marker.setLatLng(loc);
+
+				if(!noSet) {
+					self.$input.data('location', self.location);
+					self.$input.val( self.getLocation() );
+					self.onChangeLocation();
+				}
 		    };
 
 		    self.getLocation = function() {
@@ -265,14 +267,13 @@ TODO
 			    self.$input.trigger('hide');
 		    };
 
-		    self.setLocation(self.locationOri);
+		    self.setLocation(self.locationOri, true);
 
 		    self.$map = buildMap(self);
 
 		    self.$input
 			    .addClass(opts.className)
 			    .on('focus.'+opts.className, function(e) {
-				    console.log('focus:', e);
 				    e.preventDefault();
 				    self.openMap();
 			    })
@@ -287,26 +288,14 @@ TODO
 					    }
 					    p = p.parentElement;
 				    }
-				    console.log('blur:', e, close);
 				    if(close) {
 					    self.closeMap();
 				    }
 			    });
 
-		    self.$map.on('click', function(e) {
-			    console.log('map click:', e);
-		    });
-		    self.$map.on('focus', function(e) {
-			    console.log('map focus:', e);
-		    });
-		    self.$map.on('blur', function(e) {
-			    console.log('map blur:', e);
-		    });
-
 		    $(window).on('resize', function() {
-			    if (self.$map.css('display') != 'none') {
-				    self.updatePosition();
-			    }
+				if (self.$map.is(':visible'))
+					self.updatePosition();
 		    });
 		});
 
