@@ -89,3 +89,14 @@ pre {
 	clear:both;
 }
 
+form {
+	margin: 20px;
+	padding: 20px;
+	background: #eee;
+	float: left;
+	min-height: 160px;
+	min-width: 400px
+}
+input {
+	margin: 5px 0;
+}

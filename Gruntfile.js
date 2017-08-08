@@ -63,7 +63,7 @@ grunt.initConfig({
 			"-W033": true,
 			"-W044": true	//ignore regexp
 		},
-		files: ["src/<%= pkg.name %>.js"]
+		files: "src/<%= pkg.name %>.js"
 	},
 	concat: {
 		//TODO cut out SearchMarker

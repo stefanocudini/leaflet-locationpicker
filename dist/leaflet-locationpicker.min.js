@@ -1,7 +1,7 @@
 /* 
- * Leaflet Location Picker v0.2.3 - 2015-09-03 
+ * Leaflet Location Picker v0.2.4 - 2017-08-08 
  * 
- * Copyright 2015 Stefano Cudini 
+ * Copyright 2017 Stefano Cudini 
  * stefano.cudini@gmail.com 
  * http://labs.easyblog.it/ 
  * 
