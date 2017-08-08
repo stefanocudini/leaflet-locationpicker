@@ -1,6 +1,6 @@
 {
   "name": "leaflet-locationpicker",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Simple location picker with Leaflet map",
   "repository": {
     "type": "git",
@@ -22,8 +22,8 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "jquery": "*",
-    "leaflet": "*"
+    "jquery": "^2.1.0",
+    "leaflet": "^0.7.7"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
