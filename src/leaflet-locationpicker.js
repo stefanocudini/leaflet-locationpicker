@@ -1,15 +1,20 @@
-/*
-TODO
-(function(factory){
-    if (typeof define === "function" && define.amd) {
+
+(function (factory) {
+    if(typeof define === 'function' && define.amd) {
+    //AMD
         define(['jquery','leaflet'], factory);
-    } else if (typeof exports === 'object') {
-        factory(require('jquery'), require('leaflet'));
+    } else if(typeof module !== 'undefined') {
+    // Node/CommonJS
+        module.exports = factory(require('jquery','leaflet'));
     } else {
-        factory(jQuery, L);
+    // Browser globals
+    	if(typeof window.jQuery === 'undefined')
+            throw 'jQuery must be loaded first';
+        if(typeof window.L === 'undefined')
+            throw 'Leaflet must be loaded first';
+        factory(window.jQuery, window.L);
     }
-}*/
-(function(jQuery, L){
+})(function(jQuery, L){
 
 	var $ = jQuery;
 
@@ -286,4 +291,4 @@ TODO
 		return this;
 	};
 
-})(jQuery, L);
+});
