@@ -1,6 +1,8 @@
 Leaflet Location Picker
 ============
 
+[![npm version](https://badge.fury.io/js/leaflet-locationpicker.svg)](http://badge.fury.io/js/leaflet-locationpicker)
+
 Simple location picker with Leaflet map
 
 # Usage:
