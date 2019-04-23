@@ -1,7 +1,7 @@
 /* 
- * Leaflet Location Picker v0.2.6 - 2017-08-08 
+ * Leaflet Location Picker v0.3.0 - 2019-04-23 
  * 
- * Copyright 2017 Stefano Cudini 
+ * Copyright 2019 Stefano Cudini 
  * stefano.cudini@gmail.com 
  * http://labs.easyblog.it/ 
  * 
@@ -62,11 +62,11 @@
 			locationMarker: true,
 			locationDigits: 6,
 			locationSep: ',',
-			activeOnMove: false,
 			position: 'topright',
 			layer: 'OSM',
 			height: 140,
 			width: 200,
+			event: 'click',
 			cursorSize: '30px',
 			map: optsMap,
 			onChangeLocation: $.noop
@@ -156,15 +156,9 @@
 			//leaflet map
 			self.map = L.map(self.divMap, opts.map)
 				.addControl( L.control.zoom({position:'bottomright'}) )
-				.on('click', function(e) {
+				.on(opts.event, function(e) {
 					self.setLocation(e.latlng);
 				});
-
-			if(opts.activeOnMove) {
-				self.map.on('move', function(e) {
-					self.setLocation(e.target.getCenter());
-				});
-			}
 
 			var xmap = L.control({position: 'topright'});
 			xmap.onAdd = function(map) {
@@ -294,7 +288,9 @@
 					    p = p.parentElement;
 				    }
 				    if(close) {
-					    self.closeMap();
+				    	setTimeout(function() {
+					    	self.closeMap();
+					    },100)
 				    }
 			    });
 

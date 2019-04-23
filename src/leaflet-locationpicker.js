@@ -46,11 +46,11 @@
 			locationMarker: true,
 			locationDigits: 6,
 			locationSep: ',',
-			activeOnMove: false,
 			position: 'topright',
 			layer: 'OSM',
 			height: 140,
 			width: 200,
+			event: 'click',
 			cursorSize: '30px',
 			map: optsMap,
 			onChangeLocation: $.noop
@@ -140,15 +140,9 @@
 			//leaflet map
 			self.map = L.map(self.divMap, opts.map)
 				.addControl( L.control.zoom({position:'bottomright'}) )
-				.on('click', function(e) {
+				.on(opts.event, function(e) {
 					self.setLocation(e.latlng);
 				});
-
-			if(opts.activeOnMove) {
-				self.map.on('move', function(e) {
-					self.setLocation(e.target.getCenter());
-				});
-			}
 
 			var xmap = L.control({position: 'topright'});
 			xmap.onAdd = function(map) {
@@ -278,7 +272,9 @@
 					    p = p.parentElement;
 				    }
 				    if(close) {
-					    self.closeMap();
+				    	setTimeout(function() {
+					    	self.closeMap();
+					    },100)
 				    }
 			    });
 
