@@ -1,8 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml"> 
-<head> 
-	<title>Leaflet Location Picker Demo</title> 
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Leaflet Location Picker Demo</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 	<link rel="stylesheet" href="//unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
 
@@ -36,7 +36,7 @@ $('#geoloc2').leafletLocationPicker({
 	locationFormat: '{lat}@{lng}#WGS84',
 	position: 'bottomleft'
 });
-</pre>	
+</pre>
 </form>
 
 <form id="callback">
@@ -73,14 +73,31 @@ $('#geoloc3').leafletLocationPicker({
 	$(this)
 	.siblings('#geolat').val( e.latlng.lat )
 	.siblings('#geolng').val( e.latlng.lng )
-	.siblings('i').text('"'+e.location+'"');	
-});	
+	.siblings('i').text('"'+e.location+'"');
+});
 </pre>
 </form>
 
 <script src="//unpkg.com/leaflet@1.1.0/dist/leaflet.js"></script>
 <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
 
+<form id="fixedContAlwaysOpen">
+	Fixed container and always open map: <br />
+	<div  style="min-height: 140;min-width: 200;">
+			<input id="geoloc5" type="text" value="" size="20" />
+			<div id="fixedMapCont" style="border: 1px solid black; min-height: 140;min-width: 200;"></div>
+	</div>
+<pre>
+	$('#geoloc5').leafletLocationPicker({
+			alwaysOpen: true,
+			mapContainer: "#fixedMapCont"
+	});
+</pre>
+</form>
+
+
+<script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src="../src/leaflet-locationpicker.js"></script>
 <script>
 
@@ -107,13 +124,20 @@ $('#geoloc3').leafletLocationPicker({
 		$(this)
 		.siblings('#geolat').val( e.latlng.lat )
 		.siblings('#geolng').val( e.latlng.lng )
-		.siblings('i').text('"'+e.location+'"');	
+		.siblings('i').text('"'+e.location+'"');
 	});
 
 //callback
 $('#geoloc4').leafletLocationPicker(function(e) {
 	$(this).siblings('em').text(e.location);
 });
+
+//fix n alwaysOpen
+$('#geoloc5').leafletLocationPicker({
+		alwaysOpen: true,
+		mapContainer: "#fixedMapCont"
+});
+
 
 </script>
 
