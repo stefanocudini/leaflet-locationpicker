@@ -1,5 +1,5 @@
 /* 
- * Leaflet Location Picker v0.3.0 - 2020-04-28 
+ * Leaflet Location Picker v0.3.2 - 2020-04-28 
  * 
  * Copyright 2020 Stefano Cudini 
  * stefano.cudini@gmail.com 
