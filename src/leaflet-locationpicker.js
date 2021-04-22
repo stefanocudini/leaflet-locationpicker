@@ -1,3 +1,19 @@
+/*
+ * Leaflet Location Picker v0.3.2 - 2020-04-28
+ *
+ * Copyright 2020 Stefano Cudini
+ * stefano.cudini@gmail.com
+ * http://labs.easyblog.it/
+ *
+ * Licensed under the MIT license.
+ *
+ * Demo:
+ * http://labs.easyblog.it/maps/leaflet-locationpicker/
+ *
+ * Source:
+ * git@github.com:stefanocudini/leaflet-locationpicker.git
+ *
+ */
 
 (function (factory) {
     if(typeof define === 'function' && define.amd) {
@@ -14,7 +30,7 @@
             throw 'Leaflet must be loaded first';
         factory(window.jQuery, window.L);
     }
-})(function(jQuery, L){
+})(function(jQuery, L) {
 
 	var $ = jQuery;
 
@@ -25,7 +41,7 @@
 		var baseClassName = 'leaflet-locpicker',
 			baseLayers = {
 				'OSM': http + '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-				'SAT': http + '//otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png'
+				// 'SAT': http + '//otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png' // AK 2021-04-22: invalid URL!!
 				//TODO add more free base layers
 			};
 
@@ -40,7 +56,7 @@
 			optsMap = $.extend(optsMap, opts.map);
 
 		var defaults = {
-      alwaysOpen: false,
+			alwaysOpen: false,
 			className: baseClassName,
 			location: optsMap.center,
 			locationFormat: '{lat}{sep}{lng}',
@@ -55,7 +71,7 @@
 			cursorSize: '30px',
 			map: optsMap,
 			onChangeLocation: $.noop,
-      mapContainer: ""
+			mapContainer: ""
 		};
 
 		if($.isPlainObject(opts))
@@ -124,30 +140,33 @@
 				.height(opts.height)
 				.width(opts.width)
 				.append(self.divMap);
-      //adds either as global div or specified container
-      //if added to specified container add some style class
-      if(opts.mapContainer && $(opts.mapContainer))
-        self.$map.appendTo(opts.mapContainer)
-        .addClass('map-select');
-      else
-        self.$map.appendTo('body');
+
+            //adds either as global div or specified container
+            //if added to specified container add some style class
+            if(opts.mapContainer && $(opts.mapContainer))
+                self.$map.appendTo(opts.mapContainer)
+                        .addClass('map-select');
+            else
+                self.$map.appendTo('body');
 
 			if(self.location)
 				opts.map.center = self.location;
 
-			if(typeof opts.layer === 'string' && baseLayers[opts.layer])
+			if(typeof opts.layer === 'string' && baseLayers[opts.layer]) {
 				opts.map.layers = L.tileLayer(baseLayers[opts.layer]);
 
-			else if(opts.layer instanceof L.TileLayer ||
-					opts.layer instanceof L.LayerGroup )
+			}else if (opts.layer instanceof L.TileLayer ||
+                                  opts.layer instanceof L.GridLayer ||
+                                  opts.layer instanceof L.LayerGroup) {
 				opts.map.layers = opts.layer;
 
-			else
+			}else {
 				opts.map.layers = L.tileLayer(baseLayers.OSM);
+                        }
 
 			//leaflet map
 			self.map = L.map(self.divMap, opts.map)
-				.addControl( L.control.zoom({position:'bottomright'}) )
+				.addControl( L.control.zoom({position: 'bottomright'}) )
 				.on(opts.event, function(e) {
 					self.setLocation(e.latlng);
 				});
@@ -157,7 +176,7 @@
 					self.setLocation(e.target.getCenter());
 				});
 			}
-			
+
 			//only adds closeBtn if not alwaysOpen
 			if(opts.alwaysOpen!==true){
 				var xmap = L.control({position: 'topright'});
