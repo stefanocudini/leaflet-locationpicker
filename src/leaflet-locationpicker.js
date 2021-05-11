@@ -1,5 +1,5 @@
 /*
- * Leaflet Location Picker v0.3.2 - 2020-04-28
+ * Leaflet Location Picker v0.3.3 - 2021-05-11
  *
  * Copyright 2020 Stefano Cudini
  * stefano.cudini@gmail.com
@@ -69,6 +69,7 @@
 			width: 200,
 			event: 'click',
 			cursorSize: '30px',
+			readOnly: false,
 			map: optsMap,
 			onChangeLocation: $.noop,
 			mapContainer: ""
@@ -141,6 +142,9 @@
 				.width(opts.width)
 				.append(self.divMap);
 
+			if (opts.readOnly)
+				self.$map.addClass("read-only");
+
             //adds either as global div or specified container
             //if added to specified container add some style class
             if(opts.mapContainer && $(opts.mapContainer))
@@ -168,7 +172,8 @@
 			self.map = L.map(self.divMap, opts.map)
 				.addControl( L.control.zoom({position: 'bottomright'}) )
 				.on(opts.event, function(e) {
-					self.setLocation(e.latlng);
+					if (!opts.readOnly)
+						self.setLocation(e.latlng);
 				});
 
 			if(opts.activeOnMove) {
@@ -200,19 +205,19 @@
 		}
 
 		function buildMarker(loc) {
-			var css = 'padding: 0px; margin: 0px; position: absolute; outline: 1px solid #fff; box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);';
-
-			return L.marker( parseLocation(loc) || L.latLng(0,0), {
+			return L.marker(parseLocation(loc) || L.latLng(0,0), {
 				icon: L.divIcon({
 					className: opts.className+'-marker',
 					iconAnchor: L.point(0, 0),
-					html: '<div style="position: relative; top: -1px; left: -1px; padding: 0px; margin: 0px; cursor: crosshair;'+
-								'width: ' + opts.cursorSize + '; height: ' + opts.cursorSize + ';">'+
-							'<div style="width: 50%; height: 0px; left: -70%; border-top:  2px solid black;' + css + '"></div>'+
-							'<div style="width: 50%; height: 0px; left:  30%; border-top:  2px solid black;' + css + '"></div>'+
-							'<div style="width: 0px; height: 50%; top:   30%; border-left: 2px solid black;' + css + '"></div>'+
-							'<div style="width: 0px; height: 50%; top:  -70%; border-left: 2px solid black;' + css + '"></div>'+
-						'</div>',
+
+					// TODO: get rid of inline CSS completely, in order to make it compliant with Content-Security-Policy that doesn't wallows 'unsafe-inline' CSS.
+                                        // AK: These additional styles can be set up with JavaScript, after creation of the marker icon element.
+					html: '<div' + ("30px" !== opts.cursorSize ? 'style="width: ' + opts.cursorSize + '; height: ' + opts.cursorSize + ';"' : '') + '>'+
+							'<div class="corner1"></div>'+
+							'<div class="corner2"></div>'+
+							'<div class="corner3"></div>'+
+							'<div class="corner4"></div>'+
+						'</div>'
 				})
 			});
 		}
