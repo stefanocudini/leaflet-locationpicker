@@ -1,19 +1,3 @@
-/*
- * Leaflet Location Picker v0.3.3 - 2021-05-11
- *
- * Copyright 2020 Stefano Cudini
- * stefano.cudini@gmail.com
- * http://labs.easyblog.it/
- *
- * Licensed under the MIT license.
- *
- * Demo:
- * http://labs.easyblog.it/maps/leaflet-locationpicker/
- *
- * Source:
- * git@github.com:stefanocudini/leaflet-locationpicker.git
- *
- */
 
 (function (factory) {
     if(typeof define === 'function' && define.amd) {
@@ -227,6 +211,12 @@
 
 		    self.$input = $(this);
 
+		    self.options = opts; // access to options
+		    self.setReadOnly = function(newReadOnly) {
+				opts.readOnly = newReadOnly;
+				self.$map.toggleClass("read-only", newReadOnly);
+		    };
+
 		    self.locationOri = self.$input.val();
 
 			self.onChangeLocation = function() {
@@ -315,7 +305,7 @@
 				    if(close) {
 				    	setTimeout(function() {
 					    	self.closeMap();
-					    },100)
+					    }, 100);
 				    }
 			    });
 
