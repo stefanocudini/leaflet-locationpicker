@@ -1,7 +1,7 @@
 /* 
- * Leaflet Location Picker v0.3.0 - 2019-04-23 
+ * Leaflet Location Picker v0.3.2 - 2020-04-28 
  * 
- * Copyright 2019 Stefano Cudini 
+ * Copyright 2020 Stefano Cudini 
  * stefano.cudini@gmail.com 
  * https://opengeo.tech/ 
  * 
@@ -56,6 +56,7 @@
 			optsMap = $.extend(optsMap, opts.map);
 
 		var defaults = {
+      alwaysOpen: false,
 			className: baseClassName,
 			location: optsMap.center,
 			locationFormat: '{lat}{sep}{lng}',
@@ -69,7 +70,8 @@
 			event: 'click',
 			cursorSize: '30px',
 			map: optsMap,
-			onChangeLocation: $.noop
+			onChangeLocation: $.noop,
+      mapContainer: ""
 		};
 
 		if($.isPlainObject(opts))
@@ -137,8 +139,14 @@
 				.addClass(opts.className + '-map')
 				.height(opts.height)
 				.width(opts.width)
-				.append(self.divMap)
-				.appendTo('body');
+				.append(self.divMap);
+      //adds either as global div or specified container
+      //if added to specified container add some style class
+      if(opts.mapContainer && $(opts.mapContainer))
+        self.$map.appendTo(opts.mapContainer)
+        .addClass('map-select');
+      else
+        self.$map.appendTo('body');
 
 			if(self.location)
 				opts.map.center = self.location;
@@ -160,18 +168,27 @@
 					self.setLocation(e.latlng);
 				});
 
-			var xmap = L.control({position: 'topright'});
-			xmap.onAdd = function(map) {
-				var btn_holder = L.DomUtil.create('div', 'leaflet-bar');
-				var btn = L.DomUtil.create('a','leaflet-control '+opts.className+'-close');
-				btn.innerHTML = '&times;';
-				btn_holder.appendChild(btn);
-				L.DomEvent
-					.on(btn, 'click', L.DomEvent.stop, self)
-					.on(btn, 'click', self.closeMap, self);
-				return btn_holder;
-			};
-			xmap.addTo(self.map);
+			if(opts.activeOnMove) {
+				self.map.on('move', function(e) {
+					self.setLocation(e.target.getCenter());
+				});
+			}
+			
+			//only adds closeBtn if not alwaysOpen
+			if(opts.alwaysOpen!==true){
+				var xmap = L.control({position: 'topright'});
+				xmap.onAdd = function(map) {
+					var btn_holder = L.DomUtil.create('div', 'leaflet-bar');
+					var btn = L.DomUtil.create('a','leaflet-control '+opts.className+'-close');
+					btn.innerHTML = '&times;';
+					btn_holder.appendChild(btn);
+					L.DomEvent
+						.on(btn, 'click', L.DomEvent.stop, self)
+						.on(btn, 'click', self.closeMap, self);
+					return btn_holder;
+				};
+				xmap.addTo(self.map);
+			}
 
 			if(opts.locationMarker)
 				self.marker = buildMarker(self.location).addTo(self.map);
@@ -218,7 +235,7 @@
 		    self.setLocation = function(loc, noSet) {
 				loc = loc || defaults.location;
 				self.location = parseLocation(loc);
-				
+
 				if(self.marker)
 					self.marker.setLatLng(loc);
 
@@ -298,6 +315,8 @@
 				if (self.$map.is(':visible'))
 					self.updatePosition();
 		    });
+        //opens map initially if alwaysOpen
+        if(opts.alwaysOpen && opts.alwaysOpen===true) self.openMap();
 		});
 
 		return this;

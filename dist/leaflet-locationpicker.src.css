@@ -1,7 +1,7 @@
 /* 
- * Leaflet Location Picker v0.3.0 - 2019-04-23 
+ * Leaflet Location Picker v0.3.2 - 2020-04-28 
  * 
- * Copyright 2019 Stefano Cudini 
+ * Copyright 2020 Stefano Cudini 
  * stefano.cudini@gmail.com 
  * https://opengeo.tech/ 
  * 
@@ -45,7 +45,7 @@
 	bottom: 5px;
 	left: 5px;
 	cursor: crosshair;
-	border: 1px solid rgba(100,100,100,0.2)	
+	border: 1px solid rgba(100,100,100,0.2)
 }
 
 .leaflet-locpicker-map .leaflet-control {
@@ -67,3 +67,11 @@
 	border-bottom-right-radius: 0;
 }
 
+.map-select {
+		display: block !important;
+		position: relative;
+		left: 0 !important;
+		top:  0 !important;
+		width: 100% !important;
+		margin: 0 auto;
+}
