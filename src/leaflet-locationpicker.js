@@ -14,7 +14,7 @@
             throw 'Leaflet must be loaded first';
         factory(window.jQuery, window.L);
     }
-})(function(jQuery, L){
+})(function(jQuery, L) {
 
 	var $ = jQuery;
 
@@ -25,7 +25,7 @@
 		var baseClassName = 'leaflet-locpicker',
 			baseLayers = {
 				'OSM': http + '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-				'SAT': http + '//otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png'
+				// 'SAT': http + '//otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png' // AK 2021-04-22: invalid URL!!
 				//TODO add more free base layers
 			};
 
@@ -40,7 +40,7 @@
 			optsMap = $.extend(optsMap, opts.map);
 
 		var defaults = {
-      alwaysOpen: false,
+			alwaysOpen: false,
 			className: baseClassName,
 			location: optsMap.center,
 			locationFormat: '{lat}{sep}{lng}',
@@ -53,9 +53,10 @@
 			width: 200,
 			event: 'click',
 			cursorSize: '30px',
+			readOnly: false,
 			map: optsMap,
 			onChangeLocation: $.noop,
-      mapContainer: ""
+			mapContainer: ""
 		};
 
 		if($.isPlainObject(opts))
@@ -124,32 +125,39 @@
 				.height(opts.height)
 				.width(opts.width)
 				.append(self.divMap);
-      //adds either as global div or specified container
-      //if added to specified container add some style class
-      if(opts.mapContainer && $(opts.mapContainer))
-        self.$map.appendTo(opts.mapContainer)
-        .addClass('map-select');
-      else
-        self.$map.appendTo('body');
+
+			if (opts.readOnly)
+				self.$map.addClass("read-only");
+
+            //adds either as global div or specified container
+            //if added to specified container add some style class
+            if(opts.mapContainer && $(opts.mapContainer))
+                self.$map.appendTo(opts.mapContainer)
+                        .addClass('map-select');
+            else
+                self.$map.appendTo('body');
 
 			if(self.location)
 				opts.map.center = self.location;
 
-			if(typeof opts.layer === 'string' && baseLayers[opts.layer])
+			if(typeof opts.layer === 'string' && baseLayers[opts.layer]) {
 				opts.map.layers = L.tileLayer(baseLayers[opts.layer]);
 
-			else if(opts.layer instanceof L.TileLayer ||
-					opts.layer instanceof L.LayerGroup )
+			}else if (opts.layer instanceof L.TileLayer ||
+                                  opts.layer instanceof L.GridLayer ||
+                                  opts.layer instanceof L.LayerGroup) {
 				opts.map.layers = opts.layer;
 
-			else
+			}else {
 				opts.map.layers = L.tileLayer(baseLayers.OSM);
+                        }
 
 			//leaflet map
 			self.map = L.map(self.divMap, opts.map)
-				.addControl( L.control.zoom({position:'bottomright'}) )
+				.addControl( L.control.zoom({position: 'bottomright'}) )
 				.on(opts.event, function(e) {
-					self.setLocation(e.latlng);
+					if (!opts.readOnly)
+						self.setLocation(e.latlng);
 				});
 
 			if(opts.activeOnMove) {
@@ -157,7 +165,7 @@
 					self.setLocation(e.target.getCenter());
 				});
 			}
-			
+
 			//only adds closeBtn if not alwaysOpen
 			if(opts.alwaysOpen!==true){
 				var xmap = L.control({position: 'topright'});
@@ -181,19 +189,19 @@
 		}
 
 		function buildMarker(loc) {
-			var css = 'padding: 0px; margin: 0px; position: absolute; outline: 1px solid #fff; box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);';
-
-			return L.marker( parseLocation(loc) || L.latLng(0,0), {
+			return L.marker(parseLocation(loc) || L.latLng(0,0), {
 				icon: L.divIcon({
 					className: opts.className+'-marker',
 					iconAnchor: L.point(0, 0),
-					html: '<div style="position: relative; top: -1px; left: -1px; padding: 0px; margin: 0px; cursor: crosshair;'+
-								'width: ' + opts.cursorSize + '; height: ' + opts.cursorSize + ';">'+
-							'<div style="width: 50%; height: 0px; left: -70%; border-top:  2px solid black;' + css + '"></div>'+
-							'<div style="width: 50%; height: 0px; left:  30%; border-top:  2px solid black;' + css + '"></div>'+
-							'<div style="width: 0px; height: 50%; top:   30%; border-left: 2px solid black;' + css + '"></div>'+
-							'<div style="width: 0px; height: 50%; top:  -70%; border-left: 2px solid black;' + css + '"></div>'+
-						'</div>',
+
+					// TODO: get rid of inline CSS completely, in order to make it compliant with Content-Security-Policy that doesn't wallows 'unsafe-inline' CSS.
+                                        // AK: These additional styles can be set up with JavaScript, after creation of the marker icon element.
+					html: '<div' + ("30px" !== opts.cursorSize ? 'style="width: ' + opts.cursorSize + '; height: ' + opts.cursorSize + ';"' : '') + '>'+
+							'<div class="corner1"></div>'+
+							'<div class="corner2"></div>'+
+							'<div class="corner3"></div>'+
+							'<div class="corner4"></div>'+
+						'</div>'
 				})
 			});
 		}
@@ -202,6 +210,12 @@
 		    var self = this;
 
 		    self.$input = $(this);
+
+		    self.options = opts; // access to options
+		    self.setReadOnly = function(newReadOnly) {
+				opts.readOnly = newReadOnly;
+				self.$map.toggleClass("read-only", newReadOnly);
+		    };
 
 		    self.locationOri = self.$input.val();
 
@@ -291,7 +305,7 @@
 				    if(close) {
 				    	setTimeout(function() {
 					    	self.closeMap();
-					    },100)
+					    }, 100);
 				    }
 			    });
 
