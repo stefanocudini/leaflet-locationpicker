@@ -1,7 +1,7 @@
 /* 
- * Leaflet Location Picker v0.3.2 - 2020-04-28 
+ * Leaflet Location Picker v0.3.4 - 2022-11-18 
  * 
- * Copyright 2020 Stefano Cudini 
+ * Copyright 2022 Stefano Cudini 
  * stefano.cudini@gmail.com 
  * https://opengeo.tech/ 
  * 
